@@ -4,7 +4,7 @@ classDiagram
         int procedureId
         String description
         Parts targetPart
-        List~RequiredParts~ RequiredParts
+        List~RequiredParts~ requiredParts
     }
 
     class RequiredParts {
