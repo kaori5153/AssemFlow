@@ -1,6 +1,7 @@
 package com.kaori5153.assemflow.data;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -27,8 +28,10 @@ public class AssemblyProcedure {
   @Size(min = 1, max = 500)
   private String description;
 
+  @Valid
   private Parts targetPart;
 
+  @Valid
   private List<RequiredParts> requiredParts;
 
 }
