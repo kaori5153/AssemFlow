@@ -9,4 +9,16 @@
     FROM parts
   </select>
 
+  <!-- 組み立て必要部品情報を全件検索-->
+  <select id="searchRequiredParts" resultType="com.kaori5153.assemflow.data.RequiredParts">
+    SELECT *
+    FROM required_parts
+  </select>
+
+  <!-- 組み立て手順情報を全件検索-->
+  <select id="searchAssemblyProcedure" resultType="com.kaori5153.assemflow.data.AssemblyProcedure">
+    SELECT *
+    FROM assembly_procedure
+  </select>
+
 </mapper>

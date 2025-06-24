@@ -1,7 +1,9 @@
 package com.kaori5153.assemflow.controller;
 
 
+import com.kaori5153.assemflow.data.AssemblyProcedure;
 import com.kaori5153.assemflow.data.Parts;
+import com.kaori5153.assemflow.data.RequiredParts;
 import com.kaori5153.assemflow.service.AssemblyProcedureService;
 import io.swagger.v3.oas.annotations.Operation;
 import java.util.List;
@@ -26,5 +28,16 @@ public class AssemblyProcedureController {
   public List<Parts> getStudentList() {
     return service.searchPartsList();
   }
+
+  @GetMapping("/parts/required")
+  public List<RequiredParts> getRequiredPartsList() {
+    return service.searchRequiredPartsList();
+  }
+
+  @GetMapping("/procedure")
+  public List<AssemblyProcedure> getAssemblyProcedureList() {
+    return service.searchAssemblyProcedureList();
+  }
+
 
 }
