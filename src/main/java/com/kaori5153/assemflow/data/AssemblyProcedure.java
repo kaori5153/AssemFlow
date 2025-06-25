@@ -28,10 +28,9 @@ public class AssemblyProcedure {
   @Size(min = 1, max = 500)
   private String description;
 
-  @Valid
-  private Parts targetPart;
-
-  @Valid
-  private List<RequiredParts> requiredParts;
+  @Schema(description = "完成品ID", type = "int", example = "1", required = true)
+  @NotNull
+  @Max(999)
+  private int targetPartId;
 
 }

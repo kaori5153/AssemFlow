@@ -1,6 +1,8 @@
 package com.kaori5153.assemflow.service;
 
+import com.kaori5153.assemflow.data.AssemblyProcedure;
 import com.kaori5153.assemflow.data.Parts;
+import com.kaori5153.assemflow.data.RequiredParts;
 import com.kaori5153.assemflow.repository.AssemblyProcedureRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +19,36 @@ public class AssemblyProcedureService {
   }
 
   /**
-   * 受講生情報とコース情報を検索して紐づけを行う。
-   * @return 受講生詳細
+   *
+   * @return 部品情報一覧
    */
-  public List<Parts> searchPartsList() {
-    return repository.searchParts();
+  public List<Parts> getAllParts() {
+    return repository.findAllParts();
   }
+
+  public List<RequiredParts> getAllRequiredPartsList() {
+    return repository.findAllRequiredParts();
+  }
+
+  public List<AssemblyProcedure> getAllAssemblyProcedureList() {
+    return repository.findAllAssemblyProcedure();
+  }
+
+  public Parts getPartById(int partId){
+    return repository.findById(partId);
+  }
+
+  public Parts getPartByName(String partName){
+    return repository.findByPartName(partName);
+  }
+
+  public RequiredParts getRequiredPartByPartId(int partId){
+    return repository.findByPartId(partId);
+  }
+
+  public AssemblyProcedure getAssemblyProcedureById(int targetPartId){
+    return repository.findByTargetPartId(targetPartId);
+  }
+
+
 }
