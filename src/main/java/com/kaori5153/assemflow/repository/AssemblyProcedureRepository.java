@@ -14,10 +14,19 @@ public interface AssemblyProcedureRepository {
    *
    * @return 全件検索した部品情報の一覧
    */
-  List<Parts> searchParts();
+  List<Parts> findAllParts();
 
-  List<RequiredParts> searchRequiredParts();
+  List<RequiredParts> findAllRequiredParts();
 
-  List<AssemblyProcedure> searchAssemblyProcedure();
+  List<AssemblyProcedure> findAllAssemblyProcedure();
+
+  Parts findById(int partId);
+
+  Parts findByPartName(String partName);
+
+  RequiredParts findByPartId(int partId);
+
+  AssemblyProcedure findByTargetPartId(int targetPartId);
+
 
 }

@@ -31,6 +31,6 @@ public class AssemblyProcedure {
   @Schema(description = "完成品ID", type = "int", example = "1", required = true)
   @NotNull
   @Max(999)
-  private int partId;
+  private int targetPartId;
 
 }

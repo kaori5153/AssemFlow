@@ -22,16 +22,33 @@ public class AssemblyProcedureService {
    *
    * @return 部品情報一覧
    */
-  public List<Parts> searchPartsList() {
-    return repository.searchParts();
+  public List<Parts> getAllParts() {
+    return repository.findAllParts();
   }
 
-  public List<RequiredParts> searchRequiredPartsList() {
-    return repository.searchRequiredParts();
+  public List<RequiredParts> getAllRequiredPartsList() {
+    return repository.findAllRequiredParts();
   }
 
-  public List<AssemblyProcedure> searchAssemblyProcedureList() {
-    return repository.searchAssemblyProcedure();
+  public List<AssemblyProcedure> getAllAssemblyProcedureList() {
+    return repository.findAllAssemblyProcedure();
   }
+
+  public Parts getPartById(int partId){
+    return repository.findById(partId);
+  }
+
+  public Parts getPartByName(String partName){
+    return repository.findByPartName(partName);
+  }
+
+  public RequiredParts getRequiredPartByPartId(int partId){
+    return repository.findByPartId(partId);
+  }
+
+  public AssemblyProcedure getAssemblyProcedureById(int targetPartId){
+    return repository.findByTargetPartId(targetPartId);
+  }
+
 
 }

@@ -10,6 +10,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 @Validated
@@ -25,18 +26,33 @@ public class AssemblyProcedureController {
 
   @Operation(summary = "部品情報一覧", description = "部品情報の一覧を検索します")
   @GetMapping("/parts")
-  public List<Parts> getStudentList() {
-    return service.searchPartsList();
+  public List<Parts> getPartsList() {
+    return service.getAllParts();
   }
 
   @GetMapping("/parts/required")
   public List<RequiredParts> getRequiredPartsList() {
-    return service.searchRequiredPartsList();
+    return service.getAllRequiredPartsList();
   }
 
   @GetMapping("/procedure")
   public List<AssemblyProcedure> getAssemblyProcedureList() {
-    return service.searchAssemblyProcedureList();
+    return service.getAllAssemblyProcedureList();
+  }
+
+  @GetMapping("/parts/{id}")
+  public Parts getPart(@PathVariable("id") int id) {
+    return service.getPartById(id);
+  }
+
+  @GetMapping("/parts/required/{id}")
+  public RequiredParts getRequiredPartInfo(@PathVariable("id") int partId) {
+    return service.getRequiredPartByPartId(partId);
+  }
+
+  @GetMapping("/procedure/{id}")
+  public AssemblyProcedure getAssemblyProcedure(@PathVariable("id") int id) {
+    return service.getAssemblyProcedureById(id);
   }
 
 

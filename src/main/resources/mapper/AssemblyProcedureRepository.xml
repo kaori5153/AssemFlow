@@ -3,22 +3,51 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kaori5153.assemflow.repository.AssemblyProcedureRepository">
 
-  <!-- 受講生情報を全件検索-->
-  <select id="searchParts" resultType="com.kaori5153.assemflow.data.Parts">
+  <!-- 部品情報を全件検索-->
+  <select id="findAllParts" resultType="com.kaori5153.assemflow.data.Parts">
     SELECT *
     FROM parts
   </select>
 
   <!-- 組み立て必要部品情報を全件検索-->
-  <select id="searchRequiredParts" resultType="com.kaori5153.assemflow.data.RequiredParts">
+  <select id="findAllRequiredParts" resultType="com.kaori5153.assemflow.data.RequiredParts">
     SELECT *
     FROM required_parts
   </select>
 
   <!-- 組み立て手順情報を全件検索-->
-  <select id="searchAssemblyProcedure" resultType="com.kaori5153.assemflow.data.AssemblyProcedure">
+  <select id="findAllAssemblyProcedure" resultType="com.kaori5153.assemflow.data.AssemblyProcedure">
     SELECT *
     FROM assembly_procedure
   </select>
+
+  <!--  部品IDから部品情報検索 -->
+  <select id="findById" resultType="com.kaori5153.assemflow.data.Parts">
+    SELECT *
+    FROM parts
+    WHERE part_id = #{partId}
+  </select>
+
+  <!--  部品名から部品情報検索 -->
+  <select id="findByPartName" resultType="com.kaori5153.assemflow.data.Parts">
+    SELECT *
+    FROM parts
+    WHERE part_name = #{partName}
+  </select>
+
+  <!-- 部品IDから組み立て必要情報を検索-->
+  <select id="findByPartId" resultType="com.kaori5153.assemflow.data.RequiredParts">
+    SELECT *
+    FROM required_parts
+    WHERE part_id = #{partId}
+  </select>
+
+  <!-- 完成部品IDから組み立て手順情報を検索-->
+  <select id="findByTargetPartId" resultType="com.kaori5153.assemflow.data.AssemblyProcedure">
+    SELECT *
+    FROM assembly_procedure
+    WHERE target_part_id = #{targetPartId}
+  </select>
+
 
 </mapper>
