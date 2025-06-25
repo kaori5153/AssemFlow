@@ -28,5 +28,9 @@ public interface AssemblyProcedureRepository {
 
   AssemblyProcedure findByTargetPartId(int targetPartId);
 
+  void insertNewPart(Parts part);
 
+  void insertNewRequiredPart(RequiredParts requiredPart);
+
+  void insertNewAssemblyProcedure(AssemblyProcedure assemblyProcedure);
 }

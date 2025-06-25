@@ -35,7 +35,7 @@
     WHERE part_name = #{partName}
   </select>
 
-  <!-- 部品IDから組み立て必要情報を検索-->
+  <!-- 部品IDから組み立て必要部品情報を検索-->
   <select id="findByPartId" resultType="com.kaori5153.assemflow.data.RequiredParts">
     SELECT *
     FROM required_parts
@@ -48,6 +48,24 @@
     FROM assembly_procedure
     WHERE target_part_id = #{targetPartId}
   </select>
+
+  <!-- 新規部品登録 -->
+  <insert id="insertNewPart">
+    INSERT INTO parts ( part_id, part_name, manufacturer, eol, discontinued)
+    VALUES (#{partId}, #{partName}, #{manufacturer}, #{eol}, #{discontinued})
+  </insert>
+
+  <!-- 新規必要部品情報登録 -->
+  <insert id="insertNewRequiredPart">
+    INSERT INTO required_parts ( required_part_id, procedure_id, part_id, quantity)
+    VALUES (#{requiredPartId}, #{procedureId}, #{partId}, #{quantity})
+  </insert>
+
+  <!-- 新規組み立て情報登録 -->
+  <insert id="insertNewAssemblyProcedure">
+    INSERT INTO assembly_procedure ( procedure_id, description, target_part_id)
+    VALUES (#{procedureId}, #{description}, #{targetPartId})
+  </insert>
 
 
 </mapper>
