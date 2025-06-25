@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @Validated
@@ -43,6 +44,11 @@ public class AssemblyProcedureController {
   @GetMapping("/parts/{id}")
   public Parts getPart(@PathVariable("id") int id) {
     return service.getPartById(id);
+  }
+
+  @GetMapping("/parts/name")
+  public Parts getPartByName(@RequestParam String partName) {
+    return service.getPartByName(partName);
   }
 
   @GetMapping("/parts/required/{id}")
