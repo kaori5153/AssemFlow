@@ -13,6 +13,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -81,6 +82,25 @@ public class AssemblyProcedureController {
       @RequestBody AssemblyProcedure assemblyProcedure) {
     service.resisterNewAssemblyProcedure(assemblyProcedure);
     return ResponseEntity.ok("登録処理完了");
+  }
+
+  @PutMapping("/parts")
+  public ResponseEntity<String> updatePart(@RequestBody Parts part) {
+    service.updatePart(part);
+    return ResponseEntity.ok("更新処理完了");
+  }
+
+  @PutMapping("/parts/required")
+  public ResponseEntity<String> updateRequiredPart(@RequestBody RequiredParts requiredPart) {
+    service.updateRequiredPart(requiredPart);
+    return ResponseEntity.ok("更新処理完了");
+  }
+
+  @PutMapping("/procedure")
+  public ResponseEntity<String> updateAssemblyProcedure(
+      @RequestBody AssemblyProcedure assemblyProcedure) {
+    service.updateAssemblyProcedure(assemblyProcedure);
+    return ResponseEntity.ok("更新処理完了");
   }
 
 }
