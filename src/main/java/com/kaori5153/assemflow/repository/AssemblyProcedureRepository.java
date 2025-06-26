@@ -33,4 +33,12 @@ public interface AssemblyProcedureRepository {
   void insertNewRequiredPart(RequiredParts requiredPart);
 
   void insertNewAssemblyProcedure(AssemblyProcedure assemblyProcedure);
+
+  void updatePartById(Parts part);
+
+  void updatePartByPartName(Parts part);
+
+  void updateRequiredPartById(RequiredParts requiredPart);
+
+  void updateAssemblyProcedureById(AssemblyProcedure assemblyProcedure);
 }

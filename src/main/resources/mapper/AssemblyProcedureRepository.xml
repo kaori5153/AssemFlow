@@ -67,5 +67,33 @@
     VALUES (#{procedureId}, #{description}, #{targetPartId})
   </insert>
 
+  <!-- 部品IDから部品情報更新 -->
+  <update id="updatePartById">
+    UPDATE parts
+    SET part_name = #{partName}, manufacturer = #{manufacturer}, eol = #{eol}, discontinued = #{discontinued}
+    WHERE part_id = #{partId}
+  </update>
+
+  <!-- 部品IDから部品情報更新 -->
+  <update id="updatePartByPartName">
+    UPDATE parts
+    SET part_id = #{partId}, manufacturer = #{manufacturer}, eol = #{eol}, discontinued = #{discontinued}
+    WHERE part_name = #{partName}
+  </update>
+
+  <!-- 必要部品IDから必要部品情報更新 -->
+  <update id="updateRequiredPartById">
+    UPDATE required_parts
+    SET procedure_id = #{procedureId}, part_id = #{partId}, quantity = #{quantity}
+    WHERE required_part_id = #{requiredPartId}
+  </update>
+
+  <!-- 組み立て手順IDから組み立て情報更新 -->
+  <update id="updateAssemblyProcedureById">
+    UPDATE assembly_procedure
+    SET description = #{description}, target_part_id = #{targetPartId}
+    WHERE procedure_id = #{procedureId}
+  </update>
+
 
 </mapper>
