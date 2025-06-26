@@ -50,5 +50,16 @@ public class AssemblyProcedureService {
     return repository.findByTargetPartId(targetPartId);
   }
 
+  public void resisterNewPart(Parts part){
+    repository.insertNewPart(part);
+  }
+
+  public void resisterNewRequiredPart(RequiredParts requiredPart){
+    repository.insertNewRequiredPart(requiredPart);
+  }
+
+  public void resisterNewAssemblyProcedure(AssemblyProcedure assemblyProcedure){
+    repository.insertNewAssemblyProcedure(assemblyProcedure);
+  }
 
 }
