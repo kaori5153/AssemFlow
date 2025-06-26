@@ -85,8 +85,14 @@ public class AssemblyProcedureController {
   }
 
   @PutMapping("/parts")
-  public ResponseEntity<String> updatePart(@RequestBody Parts part) {
-    service.updatePart(part);
+  public ResponseEntity<String> updatePartById(@RequestBody Parts part) {
+    service.updatePartById(part);
+    return ResponseEntity.ok("更新処理完了");
+  }
+
+  @PutMapping("/parts/name")
+  public ResponseEntity<String> updatePartByPartName(@RequestBody Parts part) {
+    service.updatePartByPartName(part);
     return ResponseEntity.ok("更新処理完了");
   }
 

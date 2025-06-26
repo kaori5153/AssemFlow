@@ -74,6 +74,13 @@
     WHERE part_id = #{partId}
   </update>
 
+  <!-- 部品IDから部品情報更新 -->
+  <update id="updatePartByPartName">
+    UPDATE parts
+    SET part_id = #{partId}, manufacturer = #{manufacturer}, eol = #{eol}, discontinued = #{discontinued}
+    WHERE part_name = #{partName}
+  </update>
+
   <!-- 必要部品IDから必要部品情報更新 -->
   <update id="updateRequiredPartById">
     UPDATE required_parts

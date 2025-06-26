@@ -36,6 +36,8 @@ public interface AssemblyProcedureRepository {
 
   void updatePartById(Parts part);
 
+  void updatePartByPartName(Parts part);
+
   void updateRequiredPartById(RequiredParts requiredPart);
 
   void updateAssemblyProcedureById(AssemblyProcedure assemblyProcedure);

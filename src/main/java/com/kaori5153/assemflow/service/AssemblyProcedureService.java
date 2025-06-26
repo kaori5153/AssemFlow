@@ -62,8 +62,12 @@ public class AssemblyProcedureService {
     repository.insertNewAssemblyProcedure(assemblyProcedure);
   }
 
-  public void updatePart(Parts part){
+  public void updatePartById(Parts part){
     repository.updatePartById(part);
+  }
+
+  public void updatePartByPartName(Parts part){
+    repository.updatePartByPartName(part);
   }
 
   public void updateRequiredPart(RequiredParts requiredPart){
