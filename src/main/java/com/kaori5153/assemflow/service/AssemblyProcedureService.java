@@ -1,8 +1,10 @@
 package com.kaori5153.assemflow.service;
 
+import com.kaori5153.assemflow.controller.converter.AssemblyProcedureConverter;
 import com.kaori5153.assemflow.data.AssemblyProcedure;
 import com.kaori5153.assemflow.data.Parts;
 import com.kaori5153.assemflow.data.RequiredParts;
+import com.kaori5153.assemflow.domain.AssemblyProcedureDetail;
 import com.kaori5153.assemflow.repository.AssemblyProcedureRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +14,12 @@ import org.springframework.stereotype.Service;
 public class AssemblyProcedureService {
 
   private AssemblyProcedureRepository repository;
+  private AssemblyProcedureConverter converter;
 
   @Autowired
-  public AssemblyProcedureService(AssemblyProcedureRepository repository) {
+  public AssemblyProcedureService(AssemblyProcedureRepository repository,AssemblyProcedureConverter converter) {
     this.repository = repository;
+    this.converter = converter;
   }
 
   /**
@@ -30,8 +34,11 @@ public class AssemblyProcedureService {
     return repository.findAllRequiredParts();
   }
 
-  public List<AssemblyProcedure> getAllAssemblyProcedureList() {
-    return repository.findAllAssemblyProcedure();
+  public List<AssemblyProcedureDetail> getAllAssemblyProcedureList() {
+    List<AssemblyProcedure> allProcedures = repository.findAllAssemblyProcedure();
+    List<Parts> allParts = repository.findAllParts();
+    List<RequiredParts> allRequiredParts = repository.findAllRequiredParts();
+    return converter.toAssemblyProcedureDetails(allProcedures,allParts,allRequiredParts);
   }
 
   public Parts getPartById(int partId){
