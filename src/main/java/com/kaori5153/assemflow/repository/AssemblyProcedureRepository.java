@@ -26,7 +26,7 @@ public interface AssemblyProcedureRepository {
 
   RequiredParts findByPartId(int partId);
 
-  AssemblyProcedure findByTargetPartId(int targetPartId);
+  List<AssemblyProcedure> findByTargetPartId(int targetPartId);
 
   void insertNewPart(Parts part);
 

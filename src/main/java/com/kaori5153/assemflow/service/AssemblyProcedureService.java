@@ -6,6 +6,7 @@ import com.kaori5153.assemflow.data.Parts;
 import com.kaori5153.assemflow.data.RequiredParts;
 import com.kaori5153.assemflow.domain.AssemblyProcedureDetail;
 import com.kaori5153.assemflow.repository.AssemblyProcedureRepository;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -53,8 +54,11 @@ public class AssemblyProcedureService {
     return repository.findByPartId(partId);
   }
 
-  public AssemblyProcedure getAssemblyProcedureById(int targetPartId){
-    return repository.findByTargetPartId(targetPartId);
+  public List<AssemblyProcedureDetail>  getAssemblyProcedureById(int targetPartId){
+    List<AssemblyProcedure> procedures = repository.findByTargetPartId(targetPartId);
+    List<Parts> allParts = repository.findAllParts();
+    List<RequiredParts> allRequiredParts = repository.findAllRequiredParts();
+    return converter.toAssemblyProcedureDetails(procedures,allParts,allRequiredParts);
   }
 
   public void resisterNewPart(Parts part){

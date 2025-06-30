@@ -10,8 +10,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @Validated
-@Controller
+@RestController
 public class AssemblyProcedureController {
 
   private AssemblyProcedureService service;
@@ -34,9 +32,8 @@ public class AssemblyProcedureController {
 
   @Operation(summary = "部品情報一覧", description = "部品情報の一覧を検索します")
   @GetMapping("/parts")
-  public String getPartsList(Model model) {
-    model.addAttribute("parts", service.getAllParts());
-    return "parts";
+  public List<Parts> getPartsList() {
+    return service.getAllParts();
   }
 
   @GetMapping("/parts/required")
@@ -45,9 +42,8 @@ public class AssemblyProcedureController {
   }
 
   @GetMapping("/procedure")
-  public String getAssemblyProcedureDetailsList(Model model) {
-    model.addAttribute("procedure", service.getAllAssemblyProcedureList());
-    return "procedure";
+  public List<AssemblyProcedureDetail> getAssemblyProcedureDetailsList() {
+    return service.getAllAssemblyProcedureList();
   }
 
   @GetMapping("/parts/{id}")
@@ -66,12 +62,8 @@ public class AssemblyProcedureController {
   }
 
   @GetMapping("/procedure/{id}")
-  public String getAssemblyProcedure(@PathVariable("id") int id, Model model) {
-    model.addAttribute("targetProcedure", service.getAssemblyProcedureById(id));
-    return "targetProcedure";
-//    RestController用
-//    public List<AssemblyProcedureDetail> getAssemblyProcedure(@PathVariable("id") int id) {
-//    return service.getAssemblyProcedureById(id);
+  public AssemblyProcedure getAssemblyProcedure(@PathVariable("id") int id) {
+    return service.getAssemblyProcedureById(id);
   }
 
   @PostMapping("/parts")
