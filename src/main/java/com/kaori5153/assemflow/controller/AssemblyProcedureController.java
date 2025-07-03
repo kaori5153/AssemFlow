@@ -51,8 +51,9 @@ public class AssemblyProcedureController {
   }
 
   @GetMapping("/parts/{id}")
-  public Parts getPart(@PathVariable("id") int id) {
-    return service.getPartById(id);
+  public String getPart(@PathVariable("id") int id, Model model) {
+    model.addAttribute("part", service.getPartById(id));
+    return "part";
   }
 
   @GetMapping("/parts/name")
@@ -69,7 +70,7 @@ public class AssemblyProcedureController {
   public String getAssemblyProcedure(@PathVariable("id") int id, Model model) {
     model.addAttribute("targetProcedure", service.getAssemblyProcedureById(id));
     return "targetProcedure";
-//    RestController用
+//    RestController確認用
 //    public List<AssemblyProcedureDetail> getAssemblyProcedure(@PathVariable("id") int id) {
 //    return service.getAssemblyProcedureById(id);
   }

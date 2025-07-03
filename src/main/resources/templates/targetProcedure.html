@@ -6,8 +6,8 @@
 <body>
 <table border="1">
   <h1 th:text="${targetProcedure[0].targetPart.partName + '（部品ID: ' + targetProcedure[0].assemblyProcedure.targetPartId + '）の組み立て手順情報'}">
-  組み立て手順情報
-</h1>
+    組み立て手順情報
+  </h1>
   <tr>
     <th>組み立て手順ID</th>
     <th>説明</th>
@@ -20,5 +20,32 @@
     <td th:text="${procedureDetails.assemblyProcedure.description}">ねじを取り付ける</td>
   </tr>
   </tbody> </table>
+
+<h2>必要部品</h2>
+<table border="1">
+  <thead>
+  <tr>
+    <th>部品ID</th>
+    <th>部品名</th>
+    <th>数量</th>
+  </tr>
+  </thead>
+  <tbody>
+  <th:block th:each="procedureDetails : ${targetProcedure}">
+    <th:block th:if="${procedureDetails.requiredPartViews != null}">
+      <tr th:each="requiredPartDetails : ${procedureDetails.requiredPartViews}">
+        <td>
+          <a th:href="@{/parts/{id}(id=${requiredPartDetails.partId})}"
+             th:text="${requiredPartDetails.partId}">部品ID</a>
+        </td>
+        <td th:text="${requiredPartDetails.partName}">部品名</td>
+        <td th:text="${requiredPartDetails.quantity}">数量</td>
+      </tr>
+    </th:block>
+  </th:block>
+  </tbody>
+</table>
+
+
 </body>
 </html>
