@@ -51,8 +51,8 @@
 
   <!-- 新規部品登録 -->
   <insert id="insertNewPart">
-    INSERT INTO parts ( part_id, part_name, manufacturer, eol, discontinued)
-    VALUES (#{partId}, #{partName}, #{manufacturer}, #{eol}, #{discontinued})
+    INSERT INTO parts (part_name, manufacturer, eol)
+    VALUES (#{partName}, #{manufacturer}, #{eol})
   </insert>
 
   <!-- 新規必要部品情報登録 -->

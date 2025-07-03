@@ -12,8 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.Mapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -75,10 +78,20 @@ public class AssemblyProcedureController {
 //    return service.getAssemblyProcedureById(id);
   }
 
+  @GetMapping("/parts/new")
+  public String newPart(@ModelAttribute("part") Parts part, Model model) {
+    model.addAttribute("part", part);
+    return "registerPart";
+  }
+
   @PostMapping("/parts")
-  public ResponseEntity<String> registerPart(@RequestBody Parts part) {
+  public String registerPart(@ModelAttribute Parts part, BindingResult result) {
+    if (result.hasErrors()) {
+      result.getAllErrors().forEach(error -> System.out.println(error.toString()));
+      return "registerPart";
+    }
     service.resisterNewPart(part);
-    return ResponseEntity.ok("登録処理完了");
+    return "redirect:/parts";
   }
 
   @PostMapping("/parts/required")
