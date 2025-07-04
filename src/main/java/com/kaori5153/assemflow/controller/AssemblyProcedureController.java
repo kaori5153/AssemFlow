@@ -94,17 +94,37 @@ public class AssemblyProcedureController {
     return "redirect:/parts";
   }
 
+  @GetMapping("/parts/required/new")
+  public String newRequiredPart(@ModelAttribute("requiredPart") RequiredParts requiredPart, Model model) {
+    model.addAttribute("requiredPart", requiredPart);
+    return "registerRequiredPart";
+  }
+
   @PostMapping("/parts/required")
-  public ResponseEntity<String> registerRequiredPart(@RequestBody RequiredParts requiredPart) {
+  public String registerRequiredPart(@ModelAttribute RequiredParts requiredPart, BindingResult result) {
+    if (result.hasErrors()) {
+      result.getAllErrors().forEach(error -> System.out.println(error.toString()));
+      return "registerRequiredPart";
+    }
     service.resisterNewRequiredPart(requiredPart);
-    return ResponseEntity.ok("登録処理完了");
+    return "redirect:/parts";
+  }
+
+  @GetMapping("/procedure/new")
+  public String newProcedure(@ModelAttribute("assemProcedure") AssemblyProcedure assemProcedure, Model model) {
+    model.addAttribute("assemProcedure", assemProcedure);
+    return "registerAssemProcedure";
   }
 
   @PostMapping("/procedure")
-  public ResponseEntity<String> registerAssemblyProcedure(
-      @RequestBody AssemblyProcedure assemblyProcedure) {
-    service.resisterNewAssemblyProcedure(assemblyProcedure);
-    return ResponseEntity.ok("登録処理完了");
+  public String registerAssemProcedure(
+      @ModelAttribute AssemblyProcedure assemProcedure, BindingResult result) {
+    if (result.hasErrors()) {
+      result.getAllErrors().forEach(error -> System.out.println(error.toString()));
+      return "registerAssemProcedure";
+    }
+    service.resisterNewAssemblyProcedure(assemProcedure);
+    return "redirect:/parts";
   }
 
   @PutMapping("/parts")

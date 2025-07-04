@@ -19,9 +19,8 @@ import lombok.Setter;
 public class AssemblyProcedure {
 
   @Schema(description = "組み立て手順ID", type = "int", example = "1", required = true)
-  @NotNull
   @Max(999)
-  private int procedureId;
+  private Integer procedureId;
 
   @Schema(description = "組立説明文", type = "String", example = "ねじを締める", required = true)
   @NotNull
@@ -29,8 +28,7 @@ public class AssemblyProcedure {
   private String description;
 
   @Schema(description = "完成品ID", type = "int", example = "1", required = true)
-  @NotNull
   @Max(999)
-  private int targetPartId;
+  private Integer targetPartId;
 
 }
