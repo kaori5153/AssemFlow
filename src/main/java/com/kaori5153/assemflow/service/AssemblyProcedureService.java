@@ -54,6 +54,10 @@ public class AssemblyProcedureService {
     return repository.findByPartId(partId);
   }
 
+  public  AssemblyProcedure getAssemblyProcedureByProcedureId(int procedureId){
+   return repository.findByProcedureId(procedureId);
+  }
+
   public List<AssemblyProcedureDetail>  getAssemblyProcedureById(int targetPartId){
     List<AssemblyProcedure> procedures = repository.findByTargetPartId(targetPartId);
     List<Parts> allParts = repository.findAllParts();

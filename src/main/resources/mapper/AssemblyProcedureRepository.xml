@@ -42,6 +42,13 @@
     WHERE part_id = #{partId}
   </select>
 
+  <!-- 組み立て手順IDから組み立て手順情報を検索-->
+  <select id="findByProcedureId" resultType="com.kaori5153.assemflow.data.AssemblyProcedure">
+    SELECT *
+    FROM assembly_procedure
+    WHERE procedure_id = #{procedureId}
+  </select>
+
   <!-- 完成部品IDから組み立て手順情報を検索-->
   <select id="findByTargetPartId" resultType="com.kaori5153.assemflow.data.AssemblyProcedure">
     SELECT *

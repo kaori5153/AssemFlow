@@ -94,24 +94,44 @@ public class AssemblyProcedureController {
     return "redirect:/parts";
   }
 
+  /**
+   * 組み立てに必要な部品情報の新規登録画面を表示します。
+   *
+   * @param requiredPart 新規登録用の空の必要部品情報オブジェクト
+   * @param model        登録フォームに必要なモデル情報
+   * @return 必要部品情報の新規登録画面のビュー名
+   */
   @GetMapping("/parts/required/new")
-  public String newRequiredPart(@ModelAttribute("requiredPart") RequiredParts requiredPart, Model model) {
+  public String newRequiredPart(@ModelAttribute("requiredPart") RequiredParts requiredPart,
+      Model model) {
     model.addAttribute("requiredPart", requiredPart);
     return "registerRequiredPart";
   }
 
+  /**
+   * 組み立てに必要な部品部品情報の登録処理を行います。
+   *
+   * @param requiredPart 入力された必要部品情報データ
+   * @param result       バリデーション結果
+   * @return 登録した部品の組み立て手順情報詳細へのリダイレクト
+   */
   @PostMapping("/parts/required")
-  public String registerRequiredPart(@ModelAttribute RequiredParts requiredPart, BindingResult result) {
+  public String registerRequiredPart(@ModelAttribute RequiredParts requiredPart,
+      BindingResult result) {
     if (result.hasErrors()) {
       result.getAllErrors().forEach(error -> System.out.println(error.toString()));
       return "registerRequiredPart";
     }
     service.resisterNewRequiredPart(requiredPart);
-    return "redirect:/parts";
+    AssemblyProcedure procedure = service.getAssemblyProcedureByProcedureId(
+        requiredPart.getProcedureId());
+    int targetPartId = procedure.getTargetPartId();
+    return "redirect:/procedure/" + targetPartId;
   }
 
   @GetMapping("/procedure/new")
-  public String newProcedure(@ModelAttribute("assemProcedure") AssemblyProcedure assemProcedure, Model model) {
+  public String newProcedure(@ModelAttribute("assemProcedure") AssemblyProcedure assemProcedure,
+      Model model) {
     model.addAttribute("assemProcedure", assemProcedure);
     return "registerAssemProcedure";
   }
@@ -124,7 +144,7 @@ public class AssemblyProcedureController {
       return "registerAssemProcedure";
     }
     service.resisterNewAssemblyProcedure(assemProcedure);
-    return "redirect:/parts";
+    return "redirect:/parts/required/new";
   }
 
   @PutMapping("/parts")
