@@ -18,7 +18,7 @@
   </thead>
   <tbody>
   <tr th:each="parts : ${parts}">
-    <td> <a th:href="@{/procedure/{id}(id=${parts.partId})}" th:text="${parts.partId}"></a></td>
+    <td> <a th:href="@{/parts/update/{id}(id=${parts.partId})}" th:text="${parts.partId}"></a></td>
     <td th:text="${parts.partName}">赤LED</td>
     <td th:text="${parts.manufacturer}">照明株式会社</td>
     <td th:text="${parts.eol}">2025-12-31</td>

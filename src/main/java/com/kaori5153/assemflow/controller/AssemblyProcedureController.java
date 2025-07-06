@@ -147,10 +147,25 @@ public class AssemblyProcedureController {
     return "redirect:/parts/required/new";
   }
 
-  @PutMapping("/parts")
-  public ResponseEntity<String> updatePartById(@RequestBody Parts part) {
+  @GetMapping("/parts/update/{id}")
+  public String getPartByID(@PathVariable("id") int partId, Model model) {
+    model.addAttribute("updatePart", service.getPartById(partId));
+    model.addAttribute("partId", partId);
+    model.addAttribute("message", "更新する情報を入力してください");
+    return "updatePartById";
+  }
+
+  @PostMapping("/parts/update/{id}")
+  public String updatePartById(@PathVariable("id") int partId,
+      @ModelAttribute("updatePart") Parts part, BindingResult result,
+      Model model) {
+    if (result.hasErrors()) {
+      model.addAttribute("updatePart", part);
+      model.addAttribute("partId", partId);
+      return "updatePartById";
+    }
     service.updatePartById(part);
-    return ResponseEntity.ok("更新処理完了");
+    return "redirect:/parts";
   }
 
   @PutMapping("/parts/name")
