@@ -6,7 +6,6 @@ import com.kaori5153.assemflow.data.Parts;
 import com.kaori5153.assemflow.data.RequiredParts;
 import com.kaori5153.assemflow.domain.AssemblyProcedureDetail;
 import com.kaori5153.assemflow.repository.AssemblyProcedureRepository;
-import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,8 +49,8 @@ public class AssemblyProcedureService {
     return repository.findByPartName(partName);
   }
 
-  public RequiredParts getRequiredPartByPartId(int partId){
-    return repository.findByPartId(partId);
+  public RequiredParts getRequiredPartByRequiredPartId(int requiredPartId){
+    return repository.findByPartRequiredPartId(requiredPartId);
   }
 
   public  AssemblyProcedure getAssemblyProcedureByProcedureId(int procedureId){

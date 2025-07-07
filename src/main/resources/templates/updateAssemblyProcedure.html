@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>組み立て手順情報更新</title>
+</head>
+<body>
+<h1>組み立て手順情報更新</h1>
+
+<h2>入力フォーム</h2>
+<p th:text="${message}"></p>
+<!--<p style="color:red" th:text="${errorMessage}"></p>-->
+<form th:action="@{/procedure/update/{id}(id=${procedureId})}" th:object="${updateProcedure}" method="post">
+  <div>
+    <label for="name">組み立て手順ID:</label>
+    <input type="number" id="procedureId" th:field="*{procedureId}" required/>
+  </div>
+  <div>
+    <label for="name">組立説明文:</label>
+    <input type="text" id="name" th:field="*{description}" required/>
+  </div>
+  <div>
+    <label for="name">完成品ID:</label>
+    <input type="number" id="targetPartId" th:field="*{targetPartId}" required/>
+  </div>
+
+
+  <div>
+    <button type="submit">更新</button>
+  </div>
+</form>
+</body>
+</html>

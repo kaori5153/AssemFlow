@@ -64,10 +64,10 @@ public class AssemblyProcedureController {
     return service.getPartByName(partName);
   }
 
-  @GetMapping("/parts/required/{id}")
-  public RequiredParts getRequiredPartInfo(@PathVariable("id") int partId) {
-    return service.getRequiredPartByPartId(partId);
-  }
+//  @GetMapping("/parts/required/{id}")
+//  public RequiredParts getRequiredPartInfo(@PathVariable("id") int partId) {
+//    return service.getRequiredPartByPartId(partId);
+//  }
 
   @GetMapping("/procedure/{id}")
   public String getAssemblyProcedure(@PathVariable("id") int id, Model model) {
@@ -174,17 +174,50 @@ public class AssemblyProcedureController {
     return ResponseEntity.ok("更新処理完了");
   }
 
-  @PutMapping("/parts/required")
-  public ResponseEntity<String> updateRequiredPart(@RequestBody RequiredParts requiredPart) {
-    service.updateRequiredPart(requiredPart);
-    return ResponseEntity.ok("更新処理完了");
+  @GetMapping("/parts/required/update/{id}")
+  public String getRequiredPartByID(@PathVariable("id") int requiredPartId, Model model) {
+    model.addAttribute("updateRequiredPart",
+        service.getRequiredPartByRequiredPartId(requiredPartId));
+    model.addAttribute("requiredPartId", requiredPartId);
+    model.addAttribute("message", "更新する情報を入力してください");
+    return "updateRequiredPart";
   }
 
-  @PutMapping("/procedure")
-  public ResponseEntity<String> updateAssemblyProcedure(
-      @RequestBody AssemblyProcedure assemblyProcedure) {
+  @PostMapping("/parts/required/update/{id}")
+  public String updateRequiredPart(@PathVariable("id") int requiredPartId,
+      @ModelAttribute("updateRequiredPart") RequiredParts requiredPart, BindingResult result,
+      Model model) {
+    if (result.hasErrors()) {
+      model.addAttribute("updateRequiredPart", requiredPart);
+      model.addAttribute("procedureId", requiredPartId);
+      return "updateRequiredPart";
+    }
+    service.updateRequiredPart(requiredPart);
+    AssemblyProcedure procedure = service.getAssemblyProcedureByProcedureId(
+        requiredPart.getProcedureId());
+    int targetPartId = procedure.getTargetPartId();
+    return "redirect:/procedure/" + targetPartId;
+  }
+
+  @GetMapping("/procedure/update/{id}")
+  public String getAssemblyProcedureByID(@PathVariable("id") int procedureId, Model model) {
+    model.addAttribute("updateProcedure", service.getAssemblyProcedureByProcedureId(procedureId));
+    model.addAttribute("procedureId", procedureId);
+    model.addAttribute("message", "更新する情報を入力してください");
+    return "updateAssemblyProcedure";
+  }
+
+  @PostMapping("/procedure/update/{id}")
+  public String updateAssemblyProcedure(@PathVariable("id") int procedureId,
+      @ModelAttribute("updateProcedure") AssemblyProcedure assemblyProcedure, BindingResult result,
+      Model model) {
+    if (result.hasErrors()) {
+      model.addAttribute("updateProcedure", assemblyProcedure);
+      model.addAttribute("procedureId", procedureId);
+      return "updateAssemblyProcedure";
+    }
     service.updateAssemblyProcedure(assemblyProcedure);
-    return ResponseEntity.ok("更新処理完了");
+    return "redirect:/procedure/" + assemblyProcedure.getTargetPartId();
   }
 
 }

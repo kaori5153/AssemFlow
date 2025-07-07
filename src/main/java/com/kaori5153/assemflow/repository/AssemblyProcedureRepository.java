@@ -24,7 +24,7 @@ public interface AssemblyProcedureRepository {
 
   Parts findByPartName(String partName);
 
-  RequiredParts findByPartId(int partId);
+  RequiredParts findByPartRequiredPartId(int partId);
 
   AssemblyProcedure findByProcedureId(int procedureId);
 

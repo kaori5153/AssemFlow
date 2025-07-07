@@ -35,11 +35,11 @@
     WHERE part_name = #{partName}
   </select>
 
-  <!-- 部品IDから組み立て必要部品情報を検索-->
-  <select id="findByPartId" resultType="com.kaori5153.assemflow.data.RequiredParts">
+  <!-- 必要部品IDから組み立て必要部品情報を検索-->
+  <select id="findByPartRequiredPartId" resultType="com.kaori5153.assemflow.data.RequiredParts">
     SELECT *
     FROM required_parts
-    WHERE part_id = #{partId}
+    WHERE required_part_id = #{requiredPartId}
   </select>
 
   <!-- 組み立て手順IDから組み立て手順情報を検索-->
