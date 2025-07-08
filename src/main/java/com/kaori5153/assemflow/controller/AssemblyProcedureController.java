@@ -113,20 +113,26 @@ public class AssemblyProcedureController {
    *
    * @param requiredPart 入力された必要部品情報データ
    * @param result       バリデーション結果
-   * @return 登録した部品の組み立て手順情報詳細へのリダイレクト
+   * @param action       ユーザーのアクション
+   * @return ユーザーが選択した操作へのリダイレクト
    */
   @PostMapping("/parts/required")
   public String registerRequiredPart(@ModelAttribute RequiredParts requiredPart,
-      BindingResult result) {
+      BindingResult result, @RequestParam("action") String action) {
     if (result.hasErrors()) {
       result.getAllErrors().forEach(error -> System.out.println(error.toString()));
       return "registerRequiredPart";
     }
     service.resisterNewRequiredPart(requiredPart);
-    AssemblyProcedure procedure = service.getAssemblyProcedureByProcedureId(
-        requiredPart.getProcedureId());
-    int targetPartId = procedure.getTargetPartId();
-    return "redirect:/procedure/" + targetPartId;
+    if ("add".equals(action)) {
+      return "redirect:/parts/required/new";
+    } else if ("finish".equals(action)) {
+      AssemblyProcedure procedure = service.getAssemblyProcedureByProcedureId(
+          requiredPart.getProcedureId());
+      int targetPartId = procedure.getTargetPartId();
+      return "redirect:/procedure/" + targetPartId;
+    }
+    return "registerRequiredPart";
   }
 
   @GetMapping("/procedure/new")
