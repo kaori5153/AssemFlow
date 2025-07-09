@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Validated
 @Controller
@@ -33,6 +34,11 @@ public class AssemblyProcedureController {
   @Autowired
   public AssemblyProcedureController(AssemblyProcedureService service) {
     this.service = service;
+  }
+
+  @GetMapping("/assemProcedure/form")
+  public String showSelectOperation() {
+    return "selectOperation";
   }
 
   @Operation(summary = "部品情報一覧", description = "部品情報の一覧を検索します")
@@ -54,14 +60,24 @@ public class AssemblyProcedureController {
   }
 
   @GetMapping("/parts/{id}")
-  public String getPart(@PathVariable("id") int id, Model model) {
-    model.addAttribute("part", service.getPartById(id));
+  public String getPart(@PathVariable("partId") int partId, Model model) {
+    model.addAttribute("part", service.getPartById(partId));
     return "part";
   }
 
-  @GetMapping("/parts/name")
-  public Parts getPartByName(@RequestParam String partName) {
-    return service.getPartByName(partName);
+  @GetMapping("/parts/search")
+  public String showSearchForm() {
+    return "searchPart";
+  }
+
+  @GetMapping(value = "/parts/name", params = "partName")
+  public String searchPart(@RequestParam String partName, Model model) {
+    if (partName.isEmpty()) {
+      return "redirect:/parts/name";
+    } else {
+      model.addAttribute("part", service.getPartByName(partName));
+      return "part";
+    }
   }
 
 //  @GetMapping("/parts/required/{id}")
