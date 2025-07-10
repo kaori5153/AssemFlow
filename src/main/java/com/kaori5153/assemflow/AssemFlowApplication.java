@@ -7,7 +7,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @OpenAPIDefinition(info = @Info(title = "組み立て手順管理システム"))
 @SpringBootApplication
-public class AssemFlowApplication {
+public class
+AssemFlowApplication {
 
   public static void main(String[] args) {
     SpringApplication.run(AssemFlowApplication.class, args);

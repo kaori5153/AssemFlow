@@ -56,7 +56,7 @@ public class AssemblyProcedureController {
     return "procedure";
   }
 
-  @GetMapping("/parts/{id}")
+  @GetMapping("/parts/{partId}")
   public String getPart(@PathVariable("partId") int partId, Model model) {
     model.addAttribute("part", service.getPartById(partId));
     return "part";
@@ -93,7 +93,8 @@ public class AssemblyProcedureController {
       return "redirect:/procedure/name";
     } else {
       List<AssemblyProcedureDetail> procedureDetails = service.getAllAssemblyProcedureList();
-      model.addAttribute("targetProcedure",service.getProcedureByTargetPartName(targetPartName,procedureDetails));
+      model.addAttribute("targetProcedure",
+          service.getProcedureByTargetPartName(targetPartName, procedureDetails));
       return "targetProcedure";
     }
   }
