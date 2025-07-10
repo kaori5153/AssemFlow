@@ -19,7 +19,8 @@
   <tr th:each="procedureDetails : ${targetProcedure}">
     <td th:text="${procedureDetails.assemblyProcedure.procedureId}">1</td>
     <td th:text="${procedureDetails.assemblyProcedure.description}">ねじを取り付ける</td>
-    <td><a th:href="@{/procedure/update/{id}(id=${procedureDetails.assemblyProcedure.procedureId})}" class="button">更新</a></td>
+    <td><a th:href="@{/procedure/update/{id}(id=${procedureDetails.assemblyProcedure.procedureId})}"
+           class="button">更新</a></td>
   </tr>
   </tbody> </table>
 
@@ -43,13 +44,15 @@
         </td>
         <td th:text="${requiredPartDetails.partName}">部品名</td>
         <td th:text="${requiredPartDetails.quantity}">数量</td>
-        <td><a th:href="@{/parts/required/update/{id}(id=${requiredPartDetails.requiredPartId})}" class="button">更新</a></td>
+        <td><a th:href="@{/parts/required/update/{id}(id=${requiredPartDetails.requiredPartId})}"
+               class="button">更新</a></td>
       </tr>
     </th:block>
   </th:block>
   </tbody>
 </table>
 
+<a th:href="@{/assemProcedure/form}">ホームに戻る</a>
 
 </body>
 </html>
