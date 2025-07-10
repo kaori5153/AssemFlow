@@ -35,11 +35,18 @@
     WHERE part_name = #{partName}
   </select>
 
-  <!-- 部品IDから組み立て必要部品情報を検索-->
-  <select id="findByPartId" resultType="com.kaori5153.assemflow.data.RequiredParts">
+  <!-- 必要部品IDから組み立て必要部品情報を検索-->
+  <select id="findByPartRequiredPartId" resultType="com.kaori5153.assemflow.data.RequiredParts">
     SELECT *
     FROM required_parts
-    WHERE part_id = #{partId}
+    WHERE required_part_id = #{requiredPartId}
+  </select>
+
+  <!-- 組み立て手順IDから組み立て手順情報を検索-->
+  <select id="findByProcedureId" resultType="com.kaori5153.assemflow.data.AssemblyProcedure">
+    SELECT *
+    FROM assembly_procedure
+    WHERE procedure_id = #{procedureId}
   </select>
 
   <!-- 完成部品IDから組み立て手順情報を検索-->
@@ -51,14 +58,14 @@
 
   <!-- 新規部品登録 -->
   <insert id="insertNewPart">
-    INSERT INTO parts ( part_id, part_name, manufacturer, eol, discontinued)
-    VALUES (#{partId}, #{partName}, #{manufacturer}, #{eol}, #{discontinued})
+    INSERT INTO parts (part_name, manufacturer, eol)
+    VALUES (#{partName}, #{manufacturer}, #{eol})
   </insert>
 
   <!-- 新規必要部品情報登録 -->
   <insert id="insertNewRequiredPart">
-    INSERT INTO required_parts ( required_part_id, procedure_id, part_id, quantity)
-    VALUES (#{requiredPartId}, #{procedureId}, #{partId}, #{quantity})
+    INSERT INTO required_parts (procedure_id, part_id, quantity)
+    VALUES (#{procedureId}, #{partId}, #{quantity})
   </insert>
 
   <!-- 新規組み立て情報登録 -->

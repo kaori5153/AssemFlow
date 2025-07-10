@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>部品登録</title>
+</head>
+<body>
+<h1>部品登録</h1>
+<form th:action="@{/parts}" th:object="${part}" method="post">
+
+  <div>
+    <label for="name">部品名:</label>
+    <input type="text" id="name" th:field="*{partName}" required/>
+  </div>
+  <div>
+    <label for="manufacturer">製造メーカー:</label>
+    <input type="text" id="manufacturer" th:field="*{manufacturer}"/>
+  </div>
+  <div>
+    <label for="eol">EOL期日:</label>
+    <input type="date" id="eol" th:field="*{eol}"/>
+  </div>
+
+  <div>
+    <button type="submit">登録</button>
+  </div>
+</form>
+</body>
+</html>

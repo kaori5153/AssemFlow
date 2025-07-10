@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>部品情報</title>
+</head>
+<body>
+<table border="1">
+  <h1>部品情報</h1>
+  <thead>
+  <tr>
+    <th>部品ID</th>
+    <th>部品名</th>
+    <th>製造業者</th>
+    <th>EOL日</th>
+
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="parts : ${part}">
+    <td th:text="${parts.partId}">1</td>
+    <td th:text="${parts.partName}">赤LED</td>
+    <td th:text="${parts.manufacturer}">照明株式会社</td>
+    <td th:text="${parts.eol}">2025-12-31</td>
+    <a th:href="@{/parts/update/{id}(id=${parts.partId})}" class="button">部品情報更新</a>
+  </tr>
+  </tbody>
+</table>
+
+<a th:href="@{/assemProcedure/form}">ホームに戻る</a>
+
+</body>
+</html>

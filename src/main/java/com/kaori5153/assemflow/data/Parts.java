@@ -17,17 +17,16 @@ import lombok.Setter;
 @Builder
 public class Parts {
 
-  @Schema(description = "部品ID", type = "int", example = "1", required = true)
-  @NotNull
+  @Schema(description = "部品ID", type = "int", example = "1")
   @Max(999)
-  private int partId;
+  private Integer partId;
 
   @Schema(description = "部品名", type = "String", example = "ねじ", required = true)
   @NotNull
   @Size(min = 1, max = 100)
   private String partName;
 
-  @Schema(description = "製造会社", type = "String", example = "ねじ会社", required = true)
+  @Schema(description = "製造会社", type = "String", example = "ねじ会社")
   @Size(min = 1, max = 100)
   private String manufacturer;
 
@@ -35,6 +34,6 @@ public class Parts {
   private LocalDate eol;
 
   @Schema(description = "終売フラグ", type = "boolean")
-  private boolean discontinued;
+  private Boolean discontinued;
 
 }

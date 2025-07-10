@@ -10,17 +10,20 @@ import io.swagger.v3.oas.annotations.Operation;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 @Validated
-@RestController
+@Controller
 public class AssemblyProcedureController {
 
   private AssemblyProcedureService service;
@@ -30,10 +33,16 @@ public class AssemblyProcedureController {
     this.service = service;
   }
 
+  @GetMapping("/assemProcedure/form")
+  public String showSelectOperation() {
+    return "selectOperation";
+  }
+
   @Operation(summary = "部品情報一覧", description = "部品情報の一覧を検索します")
   @GetMapping("/parts")
-  public List<Parts> getPartsList() {
-    return service.getAllParts();
+  public String getPartsList(Model model) {
+    model.addAttribute("parts", service.getAllParts());
+    return "parts";
   }
 
   @GetMapping("/parts/required")
@@ -42,53 +51,157 @@ public class AssemblyProcedureController {
   }
 
   @GetMapping("/procedure")
-  public List<AssemblyProcedureDetail> getAssemblyProcedureDetailsList() {
-    return service.getAllAssemblyProcedureList();
+  public String getAssemblyProcedureDetailsList(Model model) {
+    model.addAttribute("procedure", service.getAllAssemblyProcedureList());
+    return "procedure";
   }
 
-  @GetMapping("/parts/{id}")
-  public Parts getPart(@PathVariable("id") int id) {
-    return service.getPartById(id);
+  @GetMapping("/parts/{partId}")
+  public String getPart(@PathVariable("partId") int partId, Model model) {
+    model.addAttribute("part", service.getPartById(partId));
+    return "part";
   }
 
-  @GetMapping("/parts/name")
-  public Parts getPartByName(@RequestParam String partName) {
-    return service.getPartByName(partName);
+  @GetMapping("/parts/search")
+  public String showSearchPartForm() {
+    return "searchPart";
   }
 
-  @GetMapping("/parts/required/{id}")
-  public RequiredParts getRequiredPartInfo(@PathVariable("id") int partId) {
-    return service.getRequiredPartByPartId(partId);
+  @GetMapping(value = "/parts/name", params = "partName")
+  public String searchPart(@RequestParam String partName, Model model) {
+    if (partName.isEmpty()) {
+      return "redirect:/parts/name";
+    } else {
+      model.addAttribute("part", service.getPartByName(partName));
+      return "part";
+    }
+  }
+
+//  @GetMapping("/parts/required/{id}")
+//  public RequiredParts getRequiredPartInfo(@PathVariable("id") int partId) {
+//    return service.getRequiredPartByPartId(partId);
+//  }
+
+  @GetMapping("/procedure/search")
+  public String showSearchProcedureForm() {
+    return "searchProcedure";
+  }
+
+  @GetMapping(value = "/procedure/name", params = "targetPartName")
+  public String searchProcedure(@RequestParam String targetPartName, Model model) {
+    if (targetPartName.isEmpty()) {
+      return "redirect:/procedure/name";
+    } else {
+      List<AssemblyProcedureDetail> procedureDetails = service.getAllAssemblyProcedureList();
+      model.addAttribute("targetProcedure",
+          service.getProcedureByTargetPartName(targetPartName, procedureDetails));
+      return "targetProcedure";
+    }
   }
 
   @GetMapping("/procedure/{id}")
-  public AssemblyProcedure getAssemblyProcedure(@PathVariable("id") int id) {
-    return service.getAssemblyProcedureById(id);
+  public String getAssemblyProcedure(@PathVariable("id") int id, Model model) {
+    model.addAttribute("targetProcedure", service.getAssemblyProcedureById(id));
+    return "targetProcedure";
+//    RestController確認用
+//    public List<AssemblyProcedureDetail> getAssemblyProcedure(@PathVariable("id") int id) {
+//    return service.getAssemblyProcedureById(id);
+  }
+
+  @GetMapping("/parts/new")
+  public String newPart(@ModelAttribute("part") Parts part, Model model) {
+    model.addAttribute("part", part);
+    return "registerPart";
   }
 
   @PostMapping("/parts")
-  public ResponseEntity<String> registerPart(@RequestBody Parts part) {
+  public String registerPart(@ModelAttribute Parts part, BindingResult result) {
+    if (result.hasErrors()) {
+      result.getAllErrors().forEach(error -> System.out.println(error.toString()));
+      return "registerPart";
+    }
     service.resisterNewPart(part);
-    return ResponseEntity.ok("登録処理完了");
+    return "redirect:/parts";
   }
 
+  /**
+   * 組み立てに必要な部品情報の新規登録画面を表示します。
+   *
+   * @param requiredPart 新規登録用の空の必要部品情報オブジェクト
+   * @param model        登録フォームに必要なモデル情報
+   * @return 必要部品情報の新規登録画面のビュー名
+   */
+  @GetMapping("/parts/required/new")
+  public String newRequiredPart(@ModelAttribute("requiredPart") RequiredParts requiredPart,
+      Model model) {
+    model.addAttribute("requiredPart", requiredPart);
+    return "registerRequiredPart";
+  }
+
+  /**
+   * 組み立てに必要な部品部品情報の登録処理を行います。
+   *
+   * @param requiredPart 入力された必要部品情報データ
+   * @param result       バリデーション結果
+   * @param action       ユーザーのアクション
+   * @return ユーザーが選択した操作へのリダイレクト
+   */
   @PostMapping("/parts/required")
-  public ResponseEntity<String> registerRequiredPart(@RequestBody RequiredParts requiredPart) {
+  public String registerRequiredPart(@ModelAttribute RequiredParts requiredPart,
+      BindingResult result, @RequestParam("action") String action) {
+    if (result.hasErrors()) {
+      result.getAllErrors().forEach(error -> System.out.println(error.toString()));
+      return "registerRequiredPart";
+    }
     service.resisterNewRequiredPart(requiredPart);
-    return ResponseEntity.ok("登録処理完了");
+    if ("add".equals(action)) {
+      return "redirect:/parts/required/new";
+    } else if ("finish".equals(action)) {
+      AssemblyProcedure procedure = service.getAssemblyProcedureByProcedureId(
+          requiredPart.getProcedureId());
+      int targetPartId = procedure.getTargetPartId();
+      return "redirect:/procedure/" + targetPartId;
+    }
+    return "registerRequiredPart";
+  }
+
+  @GetMapping("/procedure/new")
+  public String newProcedure(@ModelAttribute("assemProcedure") AssemblyProcedure assemProcedure,
+      Model model) {
+    model.addAttribute("assemProcedure", assemProcedure);
+    return "registerAssemProcedure";
   }
 
   @PostMapping("/procedure")
-  public ResponseEntity<String> registerAssemblyProcedure(
-      @RequestBody AssemblyProcedure assemblyProcedure) {
-    service.resisterNewAssemblyProcedure(assemblyProcedure);
-    return ResponseEntity.ok("登録処理完了");
+  public String registerAssemProcedure(
+      @ModelAttribute AssemblyProcedure assemProcedure, BindingResult result) {
+    if (result.hasErrors()) {
+      result.getAllErrors().forEach(error -> System.out.println(error.toString()));
+      return "registerAssemProcedure";
+    }
+    service.resisterNewAssemblyProcedure(assemProcedure);
+    return "redirect:/parts/required/new";
   }
 
-  @PutMapping("/parts")
-  public ResponseEntity<String> updatePartById(@RequestBody Parts part) {
+  @GetMapping("/parts/update/{id}")
+  public String getPartByID(@PathVariable("id") int partId, Model model) {
+    model.addAttribute("updatePart", service.getPartById(partId));
+    model.addAttribute("partId", partId);
+    model.addAttribute("message", "更新する情報を入力してください");
+    return "updatePartById";
+  }
+
+  @PostMapping("/parts/update/{id}")
+  public String updatePartById(@PathVariable("id") int partId,
+      @ModelAttribute("updatePart") Parts part, BindingResult result,
+      Model model) {
+    if (result.hasErrors()) {
+      model.addAttribute("updatePart", part);
+      model.addAttribute("partId", partId);
+      return "updatePartById";
+    }
     service.updatePartById(part);
-    return ResponseEntity.ok("更新処理完了");
+    return "redirect:/parts";
   }
 
   @PutMapping("/parts/name")
@@ -97,17 +210,50 @@ public class AssemblyProcedureController {
     return ResponseEntity.ok("更新処理完了");
   }
 
-  @PutMapping("/parts/required")
-  public ResponseEntity<String> updateRequiredPart(@RequestBody RequiredParts requiredPart) {
-    service.updateRequiredPart(requiredPart);
-    return ResponseEntity.ok("更新処理完了");
+  @GetMapping("/parts/required/update/{id}")
+  public String getRequiredPartByID(@PathVariable("id") int requiredPartId, Model model) {
+    model.addAttribute("updateRequiredPart",
+        service.getRequiredPartByRequiredPartId(requiredPartId));
+    model.addAttribute("requiredPartId", requiredPartId);
+    model.addAttribute("message", "更新する情報を入力してください");
+    return "updateRequiredPart";
   }
 
-  @PutMapping("/procedure")
-  public ResponseEntity<String> updateAssemblyProcedure(
-      @RequestBody AssemblyProcedure assemblyProcedure) {
+  @PostMapping("/parts/required/update/{id}")
+  public String updateRequiredPart(@PathVariable("id") int requiredPartId,
+      @ModelAttribute("updateRequiredPart") RequiredParts requiredPart, BindingResult result,
+      Model model) {
+    if (result.hasErrors()) {
+      model.addAttribute("updateRequiredPart", requiredPart);
+      model.addAttribute("procedureId", requiredPartId);
+      return "updateRequiredPart";
+    }
+    service.updateRequiredPart(requiredPart);
+    AssemblyProcedure procedure = service.getAssemblyProcedureByProcedureId(
+        requiredPart.getProcedureId());
+    int targetPartId = procedure.getTargetPartId();
+    return "redirect:/procedure/" + targetPartId;
+  }
+
+  @GetMapping("/procedure/update/{id}")
+  public String getAssemblyProcedureByID(@PathVariable("id") int procedureId, Model model) {
+    model.addAttribute("updateProcedure", service.getAssemblyProcedureByProcedureId(procedureId));
+    model.addAttribute("procedureId", procedureId);
+    model.addAttribute("message", "更新する情報を入力してください");
+    return "updateAssemblyProcedure";
+  }
+
+  @PostMapping("/procedure/update/{id}")
+  public String updateAssemblyProcedure(@PathVariable("id") int procedureId,
+      @ModelAttribute("updateProcedure") AssemblyProcedure assemblyProcedure, BindingResult result,
+      Model model) {
+    if (result.hasErrors()) {
+      model.addAttribute("updateProcedure", assemblyProcedure);
+      model.addAttribute("procedureId", procedureId);
+      return "updateAssemblyProcedure";
+    }
     service.updateAssemblyProcedure(assemblyProcedure);
-    return ResponseEntity.ok("更新処理完了");
+    return "redirect:/procedure/" + assemblyProcedure.getTargetPartId();
   }
 
 }

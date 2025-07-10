@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>組み立て必要部品登録</title>
+</head>
+<body>
+<h1>組み立て必要部品登録</h1>
+<form th:action="@{/parts/required}" th:object="${requiredPart}" method="post">
+
+  <div>
+    <label for="procedureId">組み立て手順ID:</label>
+    <input type="number" id="procedureId" th:field="*{procedureId}" required/>
+  </div>
+  <div>
+    <label for="partId">部品ID:</label>
+    <input type="number" id="partId" th:field="*{partId}"required/>
+  </div>
+  <div>
+    <label for="quantity">必要数:</label>
+    <input type="number" id="quantity" th:field="*{quantity}"required>
+  </div>
+
+  <div>
+    <button type="submit" name="action" value="add">追加で部品を登録する</button>
+    <button type="submit" name="action" value="finish">登録を終了する</button>
+  </div>
+</form>
+</body>
+</html>

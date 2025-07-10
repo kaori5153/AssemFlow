@@ -17,13 +17,13 @@ public class AssemblyProcedureService {
   private AssemblyProcedureConverter converter;
 
   @Autowired
-  public AssemblyProcedureService(AssemblyProcedureRepository repository,AssemblyProcedureConverter converter) {
+  public AssemblyProcedureService(AssemblyProcedureRepository repository,
+      AssemblyProcedureConverter converter) {
     this.repository = repository;
     this.converter = converter;
   }
 
   /**
-   *
    * @return 部品情報一覧
    */
   public List<Parts> getAllParts() {
@@ -38,50 +38,62 @@ public class AssemblyProcedureService {
     List<AssemblyProcedure> allProcedures = repository.findAllAssemblyProcedure();
     List<Parts> allParts = repository.findAllParts();
     List<RequiredParts> allRequiredParts = repository.findAllRequiredParts();
-    return converter.toAssemblyProcedureDetails(allProcedures,allParts,allRequiredParts);
+    return converter.toAssemblyProcedureDetails(allProcedures, allParts, allRequiredParts);
   }
 
-  public Parts getPartById(int partId){
+  public Parts getPartById(int partId) {
     return repository.findById(partId);
   }
 
-  public Parts getPartByName(String partName){
+  public Parts getPartByName(String partName) {
     return repository.findByPartName(partName);
   }
 
-  public RequiredParts getRequiredPartByPartId(int partId){
-    return repository.findByPartId(partId);
+  public RequiredParts getRequiredPartByRequiredPartId(int requiredPartId) {
+    return repository.findByPartRequiredPartId(requiredPartId);
   }
 
-  public AssemblyProcedure getAssemblyProcedureById(int targetPartId){
-    return repository.findByTargetPartId(targetPartId);
+  public AssemblyProcedure getAssemblyProcedureByProcedureId(int procedureId) {
+    return repository.findByProcedureId(procedureId);
   }
 
-  public void resisterNewPart(Parts part){
+  public List<AssemblyProcedureDetail> getAssemblyProcedureById(int targetPartId) {
+    List<AssemblyProcedure> procedures = repository.findByTargetPartId(targetPartId);
+    List<Parts> allParts = repository.findAllParts();
+    List<RequiredParts> allRequiredParts = repository.findAllRequiredParts();
+    return converter.toAssemblyProcedureDetails(procedures, allParts, allRequiredParts);
+  }
+
+  public List<AssemblyProcedureDetail> getProcedureByTargetPartName(String targetPartName,
+      List<AssemblyProcedureDetail> procedureDetails) {
+    return converter.getTargetPartProcedure(targetPartName, procedureDetails);
+  }
+
+  public void resisterNewPart(Parts part) {
     repository.insertNewPart(part);
   }
 
-  public void resisterNewRequiredPart(RequiredParts requiredPart){
+  public void resisterNewRequiredPart(RequiredParts requiredPart) {
     repository.insertNewRequiredPart(requiredPart);
   }
 
-  public void resisterNewAssemblyProcedure(AssemblyProcedure assemblyProcedure){
+  public void resisterNewAssemblyProcedure(AssemblyProcedure assemblyProcedure) {
     repository.insertNewAssemblyProcedure(assemblyProcedure);
   }
 
-  public void updatePartById(Parts part){
+  public void updatePartById(Parts part) {
     repository.updatePartById(part);
   }
 
-  public void updatePartByPartName(Parts part){
+  public void updatePartByPartName(Parts part) {
     repository.updatePartByPartName(part);
   }
 
-  public void updateRequiredPart(RequiredParts requiredPart){
+  public void updateRequiredPart(RequiredParts requiredPart) {
     repository.updateRequiredPartById(requiredPart);
   }
 
-  public void updateAssemblyProcedure(AssemblyProcedure assemblyProcedure){
+  public void updateAssemblyProcedure(AssemblyProcedure assemblyProcedure) {
     repository.updateAssemblyProcedureById(assemblyProcedure);
   }
 

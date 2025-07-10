@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>組み立て手順情報一覧</title></head>
+<body>
+<table border="1">
+  <h1 th:text="${targetProcedure[0].targetPart.partName + '（部品ID: ' + targetProcedure[0].assemblyProcedure.targetPartId + '）の組み立て手順情報'}">
+    組み立て手順情報
+  </h1>
+  <tr>
+    <th>組み立て手順ID</th>
+    <th>説明</th>
+    <th></th>
+
+  </tr>
+  </thead>
+  </tbody>
+  <tr th:each="procedureDetails : ${targetProcedure}">
+    <td th:text="${procedureDetails.assemblyProcedure.procedureId}">1</td>
+    <td th:text="${procedureDetails.assemblyProcedure.description}">ねじを取り付ける</td>
+    <td><a th:href="@{/procedure/update/{id}(id=${procedureDetails.assemblyProcedure.procedureId})}"
+           class="button">更新</a></td>
+  </tr>
+  </tbody> </table>
+
+<h2>必要部品</h2>
+<table border="1">
+  <thead>
+  <tr>
+    <th>部品ID</th>
+    <th>部品名</th>
+    <th>数量</th>
+    <th></th>
+  </tr>
+  </thead>
+  <tbody>
+  <th:block th:each="procedureDetails : ${targetProcedure}">
+    <th:block th:if="${procedureDetails.requiredPartViews != null}">
+      <tr th:each="requiredPartDetails : ${procedureDetails.requiredPartViews}">
+        <td>
+          <a th:href="@{/parts/{id}(id=${requiredPartDetails.partId})}"
+             th:text="${requiredPartDetails.partId}">部品ID</a>
+        </td>
+        <td th:text="${requiredPartDetails.partName}">部品名</td>
+        <td th:text="${requiredPartDetails.quantity}">数量</td>
+        <td><a th:href="@{/parts/required/update/{id}(id=${requiredPartDetails.requiredPartId})}"
+               class="button">更新</a></td>
+      </tr>
+    </th:block>
+  </th:block>
+  </tbody>
+</table>
+
+<a th:href="@{/assemProcedure/form}">ホームに戻る</a>
+
+</body>
+</html>

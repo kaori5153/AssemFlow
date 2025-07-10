@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>組み立て手順検索</title>
+</head>
+<body>
+<h1>組み立て手順検索</h1>
+<form th:action="@{/procedure/name}" th:method="get">
+  <div>
+    <label for="targetPartName">完成部品名入力:</label>
+    <input type="text" id="targetPartName" name="targetPartName" required/>
+  </div>
+
+  <button type="submit">検索</button>
+</form>
+
+</body>
+</html>
