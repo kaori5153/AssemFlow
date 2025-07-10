@@ -15,15 +15,12 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Validated
 @Controller
@@ -66,7 +63,7 @@ public class AssemblyProcedureController {
   }
 
   @GetMapping("/parts/search")
-  public String showSearchForm() {
+  public String showSearchPartForm() {
     return "searchPart";
   }
 
@@ -84,6 +81,22 @@ public class AssemblyProcedureController {
 //  public RequiredParts getRequiredPartInfo(@PathVariable("id") int partId) {
 //    return service.getRequiredPartByPartId(partId);
 //  }
+
+  @GetMapping("/procedure/search")
+  public String showSearchProcedureForm() {
+    return "searchProcedure";
+  }
+
+  @GetMapping(value = "/procedure/name", params = "targetPartName")
+  public String searchProcedure(@RequestParam String targetPartName, Model model) {
+    if (targetPartName.isEmpty()) {
+      return "redirect:/procedure/name";
+    } else {
+      List<AssemblyProcedureDetail> procedureDetails = service.getAllAssemblyProcedureList();
+      model.addAttribute("targetProcedure",service.getProcedureByTargetPartName(targetPartName,procedureDetails));
+      return "targetProcedure";
+    }
+  }
 
   @GetMapping("/procedure/{id}")
   public String getAssemblyProcedure(@PathVariable("id") int id, Model model) {
