@@ -45,11 +45,6 @@ public class AssemblyProcedureController {
     return "parts";
   }
 
-  @GetMapping("/parts/required")
-  public List<RequiredParts> getRequiredPartsList() {
-    return service.getAllRequiredPartsList();
-  }
-
   @GetMapping("/procedure")
   public String getAssemblyProcedureDetailsList(Model model) {
     model.addAttribute("procedure", service.getAllAssemblyProcedureList());
@@ -62,11 +57,6 @@ public class AssemblyProcedureController {
     return "part";
   }
 
-  @GetMapping("/parts/search")
-  public String showSearchPartForm() {
-    return "searchPart";
-  }
-
   @GetMapping(value = "/parts/name", params = "partName")
   public String searchPart(@RequestParam String partName, Model model) {
     if (partName.isEmpty()) {
@@ -76,11 +66,6 @@ public class AssemblyProcedureController {
       return "part";
     }
   }
-
-//  @GetMapping("/parts/required/{id}")
-//  public RequiredParts getRequiredPartInfo(@PathVariable("id") int partId) {
-//    return service.getRequiredPartByPartId(partId);
-//  }
 
   @GetMapping("/procedure/search")
   public String showSearchProcedureForm() {
@@ -103,9 +88,6 @@ public class AssemblyProcedureController {
   public String getAssemblyProcedure(@PathVariable("id") int id, Model model) {
     model.addAttribute("targetProcedure", service.getAssemblyProcedureById(id));
     return "targetProcedure";
-//    RestController確認用
-//    public List<AssemblyProcedureDetail> getAssemblyProcedure(@PathVariable("id") int id) {
-//    return service.getAssemblyProcedureById(id);
   }
 
   @GetMapping("/parts/new")
@@ -202,12 +184,6 @@ public class AssemblyProcedureController {
     }
     service.updatePartById(part);
     return "redirect:/parts";
-  }
-
-  @PutMapping("/parts/name")
-  public ResponseEntity<String> updatePartByPartName(@RequestBody Parts part) {
-    service.updatePartByPartName(part);
-    return ResponseEntity.ok("更新処理完了");
   }
 
   @GetMapping("/parts/required/update/{id}")
