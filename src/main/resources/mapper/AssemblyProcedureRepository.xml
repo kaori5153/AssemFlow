@@ -36,7 +36,7 @@
   </select>
 
   <!-- 必要部品IDから組み立て必要部品情報を検索-->
-  <select id="findByPartRequiredPartId" resultType="com.kaori5153.assemflow.data.RequiredParts">
+  <select id="findByRequiredPartId" resultType="com.kaori5153.assemflow.data.RequiredParts">
     SELECT *
     FROM required_parts
     WHERE required_part_id = #{requiredPartId}
