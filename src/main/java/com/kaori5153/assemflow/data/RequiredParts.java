@@ -21,19 +21,19 @@ public class RequiredParts {
   private Integer requiredPartId;
 
   @Schema(description = "組み立て手順ID", type = "int", example = "1", required = true)
-  @NotNull
-  @Max(999)
+  @NotNull(message = "組み立て手順IDは必須項目です")
+  @Max(value = 999, message = "組み立て手順IDは999以下の数値で入力してください")
   private Integer procedureId;
 
   @Schema(description = "部品ID", type = "int", example = "1", required = true)
-  @NotNull
-  @Max(999)
+  @NotNull(message = "部品IDは必須項目です")
+  @Max(value = 999, message = "部品IDは999以下の数値で入力してください")
   private Integer partId;
 
   @Schema(description = "必要数", type = "int", example = "1", required = true)
-  @NotNull
-  @Min(1)
-  @Max(999)
+  @NotNull(message = "必要数は必須項目です")
+  @Min(value = 1, message = "必要数は1以上の数値で入力してください")
+  @Max(value = 999, message = "必要数は999以下の数値で入力してください")
   private Integer quantity;
 
 }

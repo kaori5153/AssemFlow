@@ -7,6 +7,7 @@ import com.kaori5153.assemflow.data.RequiredParts;
 import com.kaori5153.assemflow.domain.AssemblyProcedureDetail;
 import com.kaori5153.assemflow.service.AssemblyProcedureService;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 /**
  * 組み立て手順情報に関連する情報の検索、登録、更新など行うコントローラークラスです。
  */
-@Validated
+
 @Controller
 public class AssemblyProcedureController {
 
@@ -323,7 +324,7 @@ public class AssemblyProcedureController {
       description = "指定された部品IDの情報を更新。バリデーションエラー時は再入力画面へ、成功時は部品情報一覧画面へ遷移します。")
   @PostMapping("/parts/update/{id}")
   public String updatePartById(@PathVariable("id") int partId,
-      @ModelAttribute("updatePart") Parts part, BindingResult result,
+      @Valid @ModelAttribute("updatePart") Parts part, BindingResult result,
       Model model) {
     if (result.hasErrors()) {
       model.addAttribute("updatePart", part);
@@ -365,7 +366,7 @@ public class AssemblyProcedureController {
       description = "指定された必要部品IDの情報を更新。バリデーションエラー時は再入力画面へ、成功時は組み立て手順情報詳細画面へ遷移します。")
   @PostMapping("/parts/required/update/{id}")
   public String updateRequiredPart(@PathVariable("id") int requiredPartId,
-      @ModelAttribute("updateRequiredPart") RequiredParts requiredPart, BindingResult result,
+      @Valid @ModelAttribute("updateRequiredPart") RequiredParts requiredPart, BindingResult result,
       Model model) {
     if (result.hasErrors()) {
       model.addAttribute("updateRequiredPart", requiredPart);
@@ -409,7 +410,7 @@ public class AssemblyProcedureController {
       description = "指定された組み立て手順IDの情報を更新。バリデーションエラー時は再入力画面へ、成功時は組み立て手順情報詳細画面へ遷移します。")
   @PostMapping("/procedure/update/{id}")
   public String updateAssemblyProcedure(@PathVariable("id") int procedureId,
-      @ModelAttribute("updateProcedure") AssemblyProcedure assemblyProcedure, BindingResult result,
+      @Valid @ModelAttribute("updateProcedure") AssemblyProcedure assemblyProcedure, BindingResult result,
       Model model) {
     if (result.hasErrors()) {
       model.addAttribute("updateProcedure", assemblyProcedure);

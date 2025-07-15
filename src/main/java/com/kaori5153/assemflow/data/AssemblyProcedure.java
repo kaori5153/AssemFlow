@@ -19,16 +19,16 @@ import lombok.Setter;
 public class AssemblyProcedure {
 
   @Schema(description = "組み立て手順ID", type = "int", example = "1", required = true)
-  @Max(999)
+  @Max(value = 999, message = "組み立て手順IDは999以下の数値で入力してください")
   private Integer procedureId;
 
   @Schema(description = "組立説明文", type = "String", example = "ねじを締める", required = true)
   @NotNull
-  @Size(min = 1, max = 500)
+  @Size(min = 1, max = 500, message = "1文字以上500文字以下で入力してください")
   private String description;
 
   @Schema(description = "完成品ID", type = "int", example = "1", required = true)
-  @Max(999)
+  @Max(value = 999, message = "完成品IDは999以下の数値で入力してください")
   private Integer targetPartId;
 
 }

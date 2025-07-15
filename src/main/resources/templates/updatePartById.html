@@ -9,24 +9,35 @@
 
 <h2>入力フォーム</h2>
 <p th:text="${message}"></p>
-<!--<p style="color:red" th:text="${errorMessage}"></p>-->
 <form th:action="@{/parts/update/{id}(id=${partId})}" th:object="${updatePart}" method="post">
+
   <input type="hidden" th:field="*{partId}" required/>
+
+  <div th:if="${#fields.hasErrors('partName')}" style="color:red">
+    <p th:errors="*{partName}"></p>
+  </div>
   <div>
     <label for="name">部品名:</label>
     <input type="text" id="name" th:field="*{partName}" required/>
   </div>
-  <div>
-    <label for="name">製造メーカー:</label>
-    <input type="text" id="manufacturer" th:field="*{manufacturer}" />
+
+  <div th:if="${#fields.hasErrors('manufacturer')}" style="color:red">
+    <p th:errors="*{manufacturer}"></p>
   </div>
+  <div>
+    <label for="name">製造会社:</label>
+    <input type="text" id="manufacturer" th:field="*{manufacturer}"/>
+  </div>
+
   <div>
     <label for="name">EOL日:</label>
-    <input type="date" id="eol" th:field="*{eol}" />
+    <input type="date" id="eol" th:field="*{eol}"/>
   </div>
+
   <div>
     <label><input type="checkbox" th:field="*{discontinued}"/> 製造停止</label>
   </div>
+
 
   <div>
     <button type="submit">更新</button>
