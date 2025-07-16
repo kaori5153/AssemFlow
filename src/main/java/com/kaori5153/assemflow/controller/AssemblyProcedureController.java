@@ -82,11 +82,12 @@ public class AssemblyProcedureController {
    * @param model  該当する部品情報を追加するモデル
    * @return 対象部品情報の表示画面のビュー名
    */
-  @GetMapping("/parts/{partId}")
+
   @Operation(
       summary = "部品情報画面を表示",
       description = "部品IDで指定された部品情報を表示します。"
   )
+  @GetMapping("/parts/{partId}")
   public String getPart(@PathVariable("partId") int partId, Model model) {
     model.addAttribute("part", service.getPartById(partId));
     return "part";
@@ -370,7 +371,7 @@ public class AssemblyProcedureController {
       Model model) {
     if (result.hasErrors()) {
       model.addAttribute("updateRequiredPart", requiredPart);
-      model.addAttribute("procedureId", requiredPartId);
+      model.addAttribute("requiredPartId", requiredPartId);
       return "updateRequiredPart";
     }
     service.updateRequiredPart(requiredPart);

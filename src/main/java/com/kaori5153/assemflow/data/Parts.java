@@ -27,7 +27,7 @@ public class Parts {
   private String partName;
 
   @Schema(description = "製造会社", type = "String", example = "ねじ会社")
-  @Size(min = 1, max = 100, message = "製造会社名は100文字以内で入力してください")
+  @Size(max = 100, message = "製造会社名は100文字以内で入力してください")
   private String manufacturer;
 
   @Schema(description = "EOL期日", type = "LocalDate", example = "2023-12-31")

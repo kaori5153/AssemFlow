@@ -43,6 +43,12 @@ public class AssemblyProcedureConverter {
       detail.setTargetPart(
           partsMap.get(procedure.getTargetPartId()));  //完成品IDが部品マップのキーとなっているものをセットする。
 
+      Parts targetPart = partsMap.get(procedure.getTargetPartId());
+      if (targetPart != null) {
+        detail.setTargetPart(targetPart);
+      }
+
+
       List<RequiredPartView> requiredPartViews = getRequiredPartViews(  //必要部品で部品名が見えるように成形する。
           partsMap, requiredPartsList, procedure);
       detail.setRequiredPartViews(requiredPartViews);
@@ -103,7 +109,7 @@ public class AssemblyProcedureConverter {
       List<AssemblyProcedureDetail> procedureDetails) {
     List<AssemblyProcedureDetail> detailList = new ArrayList<>();
     for (AssemblyProcedureDetail detail : procedureDetails) {
-      if (targetPartName.equals(detail.getTargetPart().getPartName())) {
+      if (detail.getTargetPart() != null && targetPartName.equals(detail.getTargetPart().getPartName())) {
         detailList.add(detail);
       }
     }

@@ -31,11 +31,8 @@
   <div th:if="${#fields.hasErrors('targetPartId')}" style="color:red">
     <p th:errors="*{targetPartId}"></p>
   </div>
-  <div>
-    <label for="name">完成品ID:</label>
-    <input type="number" id="targetPartId" th:field="*{targetPartId}" required/>
-  </div>
 
+  <input type="hidden" th:field="*{targetPartId}" required/>
 
   <div>
     <button type="submit">更新</button>
