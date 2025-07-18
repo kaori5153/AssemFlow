@@ -164,6 +164,12 @@ public class AssemblyProcedureController {
   )
   @GetMapping("/procedure/{id}")
   public String getAssemblyProcedure(@PathVariable("id") int targetPartId, Model model) {
+    List<AssemblyProcedureDetail> targetProcedure = service.getAssemblyProcedureById(targetPartId);
+    if (targetProcedure.isEmpty()) {
+      model.addAttribute("errorMessage",
+          "完成品部品IDにエラーがあります。入力情報を確認してください");
+      return "selectOperation";
+    }
     model.addAttribute("targetProcedure", service.getAssemblyProcedureById(targetPartId));
     return "targetProcedure";
   }
@@ -197,9 +203,10 @@ public class AssemblyProcedureController {
       description = "フォームから送信された部品情報の登録し、バリデーションエラー時は再入力画面へ、成功時は部品情報一覧画面へ遷移します。"
   )
   @PostMapping("/parts")
-  public String registerPart(@ModelAttribute Parts part, BindingResult result) {
+  public String registerPart(@Valid @ModelAttribute("part") Parts part, BindingResult result,
+      Model model) {
     if (result.hasErrors()) {
-      result.getAllErrors().forEach(error -> System.out.println(error.toString()));
+      model.addAttribute("part", part);
       return "registerPart";
     }
     service.resisterNewPart(part);
@@ -237,10 +244,11 @@ public class AssemblyProcedureController {
       description = "フォームから送信された必要部品情報の登録し、バリデーションエラー時は再入力画面へ、成功時はユーザーが選択した操作画面へ遷移します。"
   )
   @PostMapping("/parts/required")
-  public String registerRequiredPart(@ModelAttribute RequiredParts requiredPart,
-      BindingResult result, @RequestParam("action") String action) {
+  public String registerRequiredPart(
+      @Valid @ModelAttribute("requiredPart") RequiredParts requiredPart,
+      BindingResult result, Model model, @RequestParam("action") String action) {
     if (result.hasErrors()) {
-      result.getAllErrors().forEach(error -> System.out.println(error.toString()));
+      model.addAttribute("requiredPart", requiredPart);
       return "registerRequiredPart";
     }
     service.resisterNewRequiredPart(requiredPart);
@@ -286,9 +294,10 @@ public class AssemblyProcedureController {
   )
   @PostMapping("/procedure")
   public String registerAssemProcedure(
-      @ModelAttribute AssemblyProcedure assemProcedure, BindingResult result) {
+      @Valid @ModelAttribute("assemProcedure") AssemblyProcedure assemProcedure,
+      BindingResult result, Model model) {
     if (result.hasErrors()) {
-      result.getAllErrors().forEach(error -> System.out.println(error.toString()));
+      model.addAttribute("assemProcedure", assemProcedure);
       return "registerAssemProcedure";
     }
     service.resisterNewAssemblyProcedure(assemProcedure);
@@ -368,17 +377,22 @@ public class AssemblyProcedureController {
   @PostMapping("/parts/required/update/{id}")
   public String updateRequiredPart(@PathVariable("id") int requiredPartId,
       @Valid @ModelAttribute("updateRequiredPart") RequiredParts requiredPart, BindingResult result,
-      Model model) {
+      Model model, @RequestParam("action") String action) {
     if (result.hasErrors()) {
       model.addAttribute("updateRequiredPart", requiredPart);
       model.addAttribute("requiredPartId", requiredPartId);
       return "updateRequiredPart";
     }
-    service.updateRequiredPart(requiredPart);
-    AssemblyProcedure procedure = service.getAssemblyProcedureByProcedureId(
-        requiredPart.getProcedureId());
-    int targetPartId = procedure.getTargetPartId();
-    return "redirect:/procedure/" + targetPartId;
+    if ("add".equals(action)) {
+      return "redirect:/parts/required/new";
+    } else if ("finish".equals(action)) {
+      service.updateRequiredPart(requiredPart);
+      AssemblyProcedure procedure = service.getAssemblyProcedureByProcedureId(
+          requiredPart.getProcedureId());
+      int targetPartId = procedure.getTargetPartId();
+      return "redirect:/procedure/" + targetPartId;
+    }
+    return "updateRequiredPart";
   }
 
   /**
@@ -411,7 +425,8 @@ public class AssemblyProcedureController {
       description = "指定された組み立て手順IDの情報を更新。バリデーションエラー時は再入力画面へ、成功時は組み立て手順情報詳細画面へ遷移します。")
   @PostMapping("/procedure/update/{id}")
   public String updateAssemblyProcedure(@PathVariable("id") int procedureId,
-      @Valid @ModelAttribute("updateProcedure") AssemblyProcedure assemblyProcedure, BindingResult result,
+      @Valid @ModelAttribute("updateProcedure") AssemblyProcedure assemblyProcedure,
+      BindingResult result,
       Model model) {
     if (result.hasErrors()) {
       model.addAttribute("updateProcedure", assemblyProcedure);
