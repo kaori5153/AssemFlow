@@ -133,22 +133,29 @@ public class AssemblyProcedureController {
    *
    * @param targetPartName ユーザーが入力した完成部品名
    * @param model          該当する組み立て手順情報を追加するモデル
-   * @return 組み立て手順検索結果画面（targetProcedure）のビュー名または検索入力画面（/procedure/name）へのリダイレクト
+   * @return 組み立て手順検索結果画面（targetProcedure）のビュー名または検索入力画面（/procedure/byName）へのリダイレクト
    */
   @Operation(
       summary = "組み立て手順情報画面を表示",
       description = "完成品の部品名で指定された組み立て手順情報を表示します。"
   )
-  @GetMapping(value = "/procedure/name", params = "targetPartName")
+  @GetMapping(value = "/procedure/byName", params = "targetPartName")
   public String searchProcedure(@RequestParam String targetPartName, Model model) {
-    if (targetPartName.isEmpty()) {
-      return "redirect:/procedure/name";
-    } else {
-      List<AssemblyProcedureDetail> procedureDetails = service.getAllAssemblyProcedureList();
-      model.addAttribute("targetProcedure",
-          service.getProcedureByTargetPartName(targetPartName, procedureDetails));
-      return "targetProcedure";
+    List<AssemblyProcedureDetail> procedureDetails = service.getAllAssemblyProcedureList();
+    if (targetPartName.isEmpty() || procedureDetails.isEmpty()) {
+      model.addAttribute("errorMessage",
+          "完成品部品名にエラーがあります。入力情報を確認してください");
+      return "searchProcedure";
     }
+    List<AssemblyProcedureDetail> targetProcedure = service.getProcedureByTargetPartName(
+        targetPartName, procedureDetails);
+    if (targetProcedure.isEmpty()) {
+      model.addAttribute("errorMessage",
+          "完成品部品名にエラーがあります。入力情報を確認してください");
+      return "searchProcedure";
+    }
+    model.addAttribute("targetProcedure", targetProcedure);
+    return "targetProcedure";
   }
 
   /**
@@ -162,7 +169,7 @@ public class AssemblyProcedureController {
       summary = "組み立て手順情報画面を表示",
       description = "完成品の部品IDで指定された組み立て手順情報を表示します。"
   )
-  @GetMapping("/procedure/{id}")
+  @GetMapping("/procedure/id/{id}")
   public String getAssemblyProcedure(@PathVariable("id") int targetPartId, Model model) {
     List<AssemblyProcedureDetail> targetProcedure = service.getAssemblyProcedureById(targetPartId);
     if (targetProcedure.isEmpty()) {
