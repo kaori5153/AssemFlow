@@ -6,7 +6,8 @@
 </head>
 <body>
 <h1>組み立て手順検索</h1>
-<form th:action="@{/procedure/name}" th:method="get">
+<p style="color:red" th:text="${errorMessage}"></p>
+<form th:action="@{/procedure/byName}" th:method="get">
   <div>
     <label for="targetPartName">完成部品名入力:</label>
     <input type="text" id="targetPartName" name="targetPartName" required/>

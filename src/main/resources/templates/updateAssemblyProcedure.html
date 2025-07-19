@@ -9,21 +9,30 @@
 
 <h2>入力フォーム</h2>
 <p th:text="${message}"></p>
-<!--<p style="color:red" th:text="${errorMessage}"></p>-->
-<form th:action="@{/procedure/update/{id}(id=${procedureId})}" th:object="${updateProcedure}" method="post">
+<form th:action="@{/procedure/update/{id}(id=${procedureId})}" th:object="${updateProcedure}"
+      method="post">
+
+  <div th:if="${#fields.hasErrors('procedureId')}" style="color:red">
+    <p th:errors="*{procedureId}"></p>
+  </div>
   <div>
     <label for="name">組み立て手順ID:</label>
     <input type="number" id="procedureId" th:field="*{procedureId}" required/>
+  </div>
+
+  <div th:if="${#fields.hasErrors('description')}" style="color:red">
+    <p th:errors="*{description}"></p>
   </div>
   <div>
     <label for="name">組立説明文:</label>
     <input type="text" id="name" th:field="*{description}" required/>
   </div>
-  <div>
-    <label for="name">完成品ID:</label>
-    <input type="number" id="targetPartId" th:field="*{targetPartId}" required/>
+
+  <div th:if="${#fields.hasErrors('targetPartId')}" style="color:red">
+    <p th:errors="*{targetPartId}"></p>
   </div>
 
+  <input type="hidden" th:field="*{targetPartId}" required/>
 
   <div>
     <button type="submit">更新</button>

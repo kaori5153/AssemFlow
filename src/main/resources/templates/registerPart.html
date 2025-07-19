@@ -8,14 +8,22 @@
 <h1>部品登録</h1>
 <form th:action="@{/parts}" th:object="${part}" method="post">
 
+  <div th:if="${#fields.hasErrors('partName')}" style="color:red">
+    <p th:errors="*{partName}"></p>
+  </div>
   <div>
     <label for="name">部品名:</label>
     <input type="text" id="name" th:field="*{partName}" required/>
+  </div>
+
+  <div th:if="${#fields.hasErrors('manufacturer')}" style="color:red">
+    <p th:errors="*{manufacturer}"></p>
   </div>
   <div>
     <label for="manufacturer">製造メーカー:</label>
     <input type="text" id="manufacturer" th:field="*{manufacturer}"/>
   </div>
+
   <div>
     <label for="eol">EOL期日:</label>
     <input type="date" id="eol" th:field="*{eol}"/>
