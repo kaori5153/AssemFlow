@@ -230,7 +230,7 @@ stateDiagram-v2
           model.addAttribute("requiredPart", requiredPart);
           return "registerRequiredPart";
         }
-        service.resisterNewRequiredPart(requiredPart);
+        service.registerNewRequiredPart(requiredPart);
         if ("add".equals(action)) {
           return "redirect:/parts/required/new";
         } else if ("finish".equals(action)) {
