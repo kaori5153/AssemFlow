@@ -12,6 +12,31 @@
 
 ## 概要
 
+### 使用技術
+
+***
+
+- Java 21
+- Spring Boot
+- Thymeleaf
+- MySQL
+- Lombok
+
+### 機能一覧
+
+***
+
+|   | 機能              |
+|---|-----------------|
+| 1 | 部品の登録機能         |
+| 2 | 組み立て手順の登録機能     |
+| 3 | 組み立てに必要な部品の登録機能 |
+| 4 | 部品情報の更新機能       |
+| 5 | 組み立て手順の更新機能     |
+| 6 | 組み立てに必要な部品の更新機能 |
+| 7 | 部品の検索機能         |
+| 8 | 組み立て手順の検索機能     |
+
 ### ER図
 
 ***
@@ -81,34 +106,7 @@ stateDiagram-v2
 
 ```
 
-### 使用技術
-
-***
-
-- Java 21
-- Spring Boot
-- Thymeleaf
-- MySQL
-- Lombok
-
-### 機能一覧
-
-***
-
-|   | 機能              |
-|---|-----------------|
-| 1 | 部品の登録機能         |
-| 2 | 組み立て手順の登録機能     |
-| 3 | 組み立てに必要な部品の登録機能 |
-| 4 | 部品情報の更新機能       |
-| 5 | 組み立て手順の更新機能     |
-| 6 | 組み立てに必要な部品の更新機能 |
-| 7 | 部品の検索機能         |
-| 8 | 組み立て手順の検索機能     |
-
 ## 何ができるのか
-
-***
 
 1. ホーム画面
    ![img.png](img.png)
@@ -167,7 +165,7 @@ stateDiagram-v2
 
 7. 部品の登録
 
-    ![部品情報登録.gif](img%2FregisterPart.gif)
+   ![部品情報登録.gif](img%2FregisterPart.gif)
     1. ホーム画面の[新規部品を登録する]を選択します。
     2. 品名(必須)、製造会社(任意)、EOL日(任意)を入力します。
     3. [登録]ボタンを押下すると入力した情報が登録でき、登録部品一覧表示画面に遷移します。
@@ -202,54 +200,53 @@ stateDiagram-v2
     2. 文字数制限を超えたとき
        ![img_3.png](img_3.png)
 
+## 工夫したところ
+1. 必要部品テーブルから表示用オブジェクトに変換しました。
+```java
+  private static List<RequiredPartView> getRequiredPartViews(Map<Integer, Parts> partsMap,
+      List<RequiredParts> requiredPartsList, AssemblyProcedure procedure) {
+    List<RequiredPartView> requiredPartViews = new ArrayList<>();
 
-12. 工夫したところ
-    1. 必要部品テーブルから表示用オブジェクトに変換しました。
-    ```java
-      private static List<RequiredPartView> getRequiredPartViews(Map<Integer, Parts> partsMap,
-          List<RequiredParts> requiredPartsList, AssemblyProcedure procedure) {
-        List<RequiredPartView> requiredPartViews = new ArrayList<>();
-    
-        for (RequiredParts requiredParts : requiredPartsList) {
-          if (procedure.getProcedureId() == requiredParts.getProcedureId()) { //手順IDが等しい場合
-            Parts parts = partsMap.get(requiredParts.getPartId());  //  部品IDキーに紐づく部品情報を代入
-            if (parts != null) {     //部品がある場合
-              addToViewList(requiredParts, parts, requiredPartViews); //Viewリストに追加
-            }
-          }
+    for (RequiredParts requiredParts : requiredPartsList) {
+      if (procedure.getProcedureId() == requiredParts.getProcedureId()) { //手順IDが等しい場合
+        Parts parts = partsMap.get(requiredParts.getPartId());  //  部品IDキーに紐づく部品情報を代入
+        if (parts != null) {     //部品がある場合
+          addToViewList(requiredParts, parts, requiredPartViews); //Viewリストに追加
         }
-        return requiredPartViews;
       }
-    ```
+    }
+    return requiredPartViews;
+  }
+```
 
-    2. ユーザーが選択によって画面遷移先を定めるため、RequestParamを使って遷移先を決定しました。
-    ```java
-      @PostMapping("/parts/required")
-      public String registerRequiredPart(@ModelAttribute RequiredParts requiredPart,
-          BindingResult result, Model model, @RequestParam("action") String action) {
-        if (result.hasErrors()) {
-          model.addAttribute("requiredPart", requiredPart);
-          return "registerRequiredPart";
-        }
-        service.registerNewRequiredPart(requiredPart);
-        if ("add".equals(action)) {
-          return "redirect:/parts/required/new";
-        } else if ("finish".equals(action)) {
-          AssemblyProcedure procedure = service.getAssemblyProcedureByProcedureId(
-              requiredPart.getProcedureId());
-          int targetPartId = procedure.getTargetPartId();
-          return "redirect:/procedure/" + targetPartId;
-        }
-        return "registerRequiredPart";
-      }
-     ```
+2. ユーザーが選択によって画面遷移先を定めるため、RequestParamを使って遷移先を決定しました。
+```java
+  @PostMapping("/parts/required")
+  public String registerRequiredPart(@ModelAttribute RequiredParts requiredPart,
+      BindingResult result, Model model, @RequestParam("action") String action) {
+    if (result.hasErrors()) {
+      model.addAttribute("requiredPart", requiredPart);
+      return "registerRequiredPart";
+    }
+    service.registerNewRequiredPart(requiredPart);
+    if ("add".equals(action)) {
+      return "redirect:/parts/required/new";
+    } else if ("finish".equals(action)) {
+      AssemblyProcedure procedure = service.getAssemblyProcedureByProcedureId(
+          requiredPart.getProcedureId());
+      int targetPartId = procedure.getTargetPartId();
+      return "redirect:/procedure/" + targetPartId;
+    }
+    return "registerRequiredPart";
+  }
+ ```
 
-13. 今後の展望
-    1. 部品情報の「EOL日」を利用した検索機能
-        - EOL日が近い順にソートを行い、代替品対応業務を行いやすくする。
-    2. 部品情報の「終売フラグ」を利用した検索機能
-        - 終売フラグがtrueの部品は組み立て手順に使用できないように制限を与える。
-    3. 部品情報一覧から組み立て手順詳細情報への遷移
-        - 部品がどの工程で使用されているか検索できる機能を加える。
+## 今後の展望
+1. 部品情報の「EOL日」を利用した検索機能
+    - EOL日が近い順にソートを行い、代替品対応業務を行いやすくする。
+2. 部品情報の「終売フラグ」を利用した検索機能
+    - 終売フラグがtrueの部品は組み立て手順に使用できないように制限を与える。
+3. 部品情報一覧から組み立て手順詳細情報への遷移
+    - 部品がどの工程で使用されているか検索できる機能を加える。
 
 
