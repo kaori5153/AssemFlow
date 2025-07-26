@@ -3,10 +3,79 @@
 <head>
   <meta charset="UTF-8">
   <title>組み立て手順検索</title>
+  <style>
+    body {
+  font-family: 'Segoe UI', 'Roboto', sans-serif;
+  background-color: #f4f6f8;
+  margin: 0;
+  padding: 40px;
+  color: #333;
+}
+
+h1 {
+  font-size: 24px;
+  margin-bottom: 30px;
+  color: #2c3e50;
+  border-bottom: 2px solid #3498db;
+  padding-bottom: 10px;
+}
+
+form {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  max-width: 600px;
+  margin: auto;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #34495e;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  box-sizing: border-box;
+  transition: border-color 0.3s;
+}
+
+input:focus {
+  border-color: #3498db;
+  outline: none;
+}
+
+form > div:last-child {
+  text-align: right;
+}
+
+button[type="submit"] {
+  background-color: #3498db;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  font-size: 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button[type="submit"]:hover {
+  background-color: #2980b9;
+}
+
+  </style>
 </head>
 <body>
 <h1>組み立て手順検索</h1>
-<p style="color:red" th:text="${errorMessage}"></p>
+<p style="color:red; text-align:center;" th:text="${errorMessage}"></p>
 <form th:action="@{/procedure/byName}" th:method="get">
   <div>
     <label for="targetPartName">完成部品名入力:</label>
