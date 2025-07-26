@@ -264,7 +264,7 @@ public class AssemblyProcedureController {
       AssemblyProcedure procedure = service.getAssemblyProcedureByProcedureId(
           requiredPart.getProcedureId());
       int targetPartId = procedure.getTargetPartId();
-      return "redirect:/procedure/id" + targetPartId;
+      return "redirect:/procedure/id/" + targetPartId;
     }
     return "registerRequiredPart";
   }
@@ -389,10 +389,10 @@ public class AssemblyProcedureController {
       model.addAttribute("requiredPartId", requiredPartId);
       return "updateRequiredPart";
     }
+    service.updateRequiredPart(requiredPart);
     if ("add".equals(action)) {
       return "redirect:/parts/required/new";
     } else if ("finish".equals(action)) {
-      service.updateRequiredPart(requiredPart);
       AssemblyProcedure procedure = service.getAssemblyProcedureByProcedureId(
           requiredPart.getProcedureId());
       int targetPartId = procedure.getTargetPartId();
