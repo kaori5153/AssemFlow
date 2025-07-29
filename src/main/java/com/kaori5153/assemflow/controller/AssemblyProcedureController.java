@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -169,7 +168,7 @@ public class AssemblyProcedureController {
       summary = "組み立て手順情報画面を表示",
       description = "完成品の部品IDで指定された組み立て手順情報を表示します。"
   )
-  @GetMapping("/procedure/id/{id}")
+  @GetMapping("/procedure/{id}")
   public String getAssemblyProcedure(@PathVariable("id") int targetPartId, Model model) {
     List<AssemblyProcedureDetail> targetProcedure = service.getAssemblyProcedureById(targetPartId);
     if (targetProcedure.isEmpty()) {
@@ -216,7 +215,7 @@ public class AssemblyProcedureController {
       model.addAttribute("part", part);
       return "registerPart";
     }
-    service.resisterNewPart(part);
+    service.registerNewPart(part);
     return "redirect:/parts";
   }
 
@@ -258,7 +257,7 @@ public class AssemblyProcedureController {
       model.addAttribute("requiredPart", requiredPart);
       return "registerRequiredPart";
     }
-    service.resisterNewRequiredPart(requiredPart);
+    service.registerNewRequiredPart(requiredPart);
     if ("add".equals(action)) {
       return "redirect:/parts/required/new";
     } else if ("finish".equals(action)) {
@@ -307,7 +306,7 @@ public class AssemblyProcedureController {
       model.addAttribute("assemProcedure", assemProcedure);
       return "registerAssemProcedure";
     }
-    service.resisterNewAssemblyProcedure(assemProcedure);
+    service.registerNewAssemblyProcedure(assemProcedure);
     return "redirect:/parts/required/new";
   }
 
@@ -390,10 +389,10 @@ public class AssemblyProcedureController {
       model.addAttribute("requiredPartId", requiredPartId);
       return "updateRequiredPart";
     }
+    service.updateRequiredPart(requiredPart);
     if ("add".equals(action)) {
       return "redirect:/parts/required/new";
     } else if ("finish".equals(action)) {
-      service.updateRequiredPart(requiredPart);
       AssemblyProcedure procedure = service.getAssemblyProcedureByProcedureId(
           requiredPart.getProcedureId());
       int targetPartId = procedure.getTargetPartId();

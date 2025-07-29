@@ -117,7 +117,7 @@ public class AssemblyProcedureService {
    *
    * @param part 登録対象の {@link Parts} 部品情報オブジェクト
    */
-  public void resisterNewPart(Parts part) {
+  public void registerNewPart(Parts part) {
     repository.insertNewPart(part);
   }
 
@@ -126,7 +126,7 @@ public class AssemblyProcedureService {
    *
    * @param requiredPart 登録対象の {@link RequiredParts} 必要部品情報オブジェクト
    */
-  public void resisterNewRequiredPart(RequiredParts requiredPart) {
+  public void registerNewRequiredPart(RequiredParts requiredPart) {
     repository.insertNewRequiredPart(requiredPart);
   }
 
@@ -135,7 +135,7 @@ public class AssemblyProcedureService {
    *
    * @param assemblyProcedure 登録対象の {@link AssemblyProcedure} 組み立て手順情報オブジェクト
    */
-  public void resisterNewAssemblyProcedure(AssemblyProcedure assemblyProcedure) {
+  public void registerNewAssemblyProcedure(AssemblyProcedure assemblyProcedure) {
     repository.insertNewAssemblyProcedure(assemblyProcedure);
   }
 

@@ -12,6 +12,31 @@
 
 ## 概要
 
+### 使用技術
+
+***
+
+- Java 21
+- Spring Boot
+- Thymeleaf
+- Lombok
+- MySQL
+
+### 機能一覧
+
+***
+
+|   | 機能              |
+|---|-----------------|
+| 1 | 部品の登録機能         |
+| 2 | 組み立て手順の登録機能     |
+| 3 | 組み立てに必要な部品の登録機能 |
+| 4 | 部品情報の更新機能       |
+| 5 | 組み立て手順の更新機能     |
+| 6 | 組み立てに必要な部品の更新機能 |
+| 7 | 部品の検索機能         |
+| 8 | 組み立て手順の検索機能     |
+
 ### ER図
 
 ***
@@ -81,67 +106,39 @@ stateDiagram-v2
 
 ```
 
-### 使用技術
-
-***
-
-- Java 21
-- Spring Boot
-- Thymeleaf
-- MySQL
-- Lombok
-
-### 機能一覧
-
-***
-
-|   | 機能              |
-|---|-----------------|
-| 1 | 部品の登録機能         |
-| 2 | 組み立て手順の登録機能     |
-| 3 | 組み立てに必要な部品の登録機能 |
-| 4 | 部品情報の更新機能       |
-| 5 | 組み立て手順の更新機能     |
-| 6 | 組み立てに必要な部品の更新機能 |
-| 7 | 部品の検索機能         |
-| 8 | 組み立て手順の検索機能     |
-
 ## 何ができるのか
 
-***
-
 1. ホーム画面
-   ![img.png](img.png)
-
+![ホーム画面.gif](img%2F%E3%83%9B%E3%83%BC%E3%83%A0%E7%94%BB%E9%9D%A2.gif)
 - ユーザーが行いたい操作を選択します。
 - 操作選択後、それぞれの操作ページに遷移します。
 
 
 2. 組み立て手順の検索
 
-[手順検索と部品情報更新.mov](img%2FsearchProcedure_updatePart.mov)
+    ![組み立て手順検索.gif](img%2F%E7%B5%84%E3%81%BF%E7%AB%8B%E3%81%A6%E6%89%8B%E9%A0%86%E6%A4%9C%E7%B4%A2.gif)
 
-1. ホーム画面の[完成品部品名から組み立て手順を検索する]を選択します。
-2. 組み立てたい部品名を入力し、[検索]を押下します。
-3. 入力した部品を完成品とした組み立て手順が登録されていた場合、組み立て手順詳細情報を表示します。
+   1. ホーム画面の[完成品部品名から組み立て手順を検索する]を選択します。
+   2. 組み立てたい部品名を入力し、[検索]を押下します。
+   3. 入力した部品を完成品とした組み立て手順が登録されていた場合、組み立て手順詳細情報を表示します。
 
-![img_1.png](img_1.png)
 
-- 組み立て手順詳細情報には、完成品を作り上げる手順とそれに必要な部品が紐づいています。
-- 手順の[更新]ボタンを押下すると、説明文を修正できます。
-- 部品IDを選択すると、部品の詳細情報の表示画面に遷移します。
-- 必要部品の[更新]ボタンを押下すると、必要部品の情報を修正できます。
+   - 組み立て手順詳細情報には、完成品を作り上げる手順とそれに必要な部品が紐づいています。
+   - 手順の[更新]ボタンを押下すると、説明文を修正できます。
+   - 部品IDを選択すると、部品の詳細情報の表示画面に遷移します。
+   - 必要部品の[更新]ボタンを押下すると、必要部品の情報を修正できます。
 
 
 3. 組み立て手順情報の更新
 
-   [組み立て手順更新.mov](img%2FupdateProcedure.mov)
-    1. 組み立て手順詳細情報画面の手順の[更新]ボタンを選択する。
+    ![組み立て手順説明更新.gif](img%2F%E7%B5%84%E3%81%BF%E7%AB%8B%E3%81%A6%E6%89%8B%E9%A0%86%E8%AA%AC%E6%98%8E%E6%9B%B4%E6%96%B0.gif)
+    1. 組み立て手順詳細情報画面の手順の[手順ID]を選択する。
     2. 説明文を入力する。
     3. [更新]ボタンを押下し、組み立て手順詳細情報を表示します。
 
 
 4. 必要部品の情報の更新
+
     1. 組み立て手順詳細情報画面の必要部品の[更新]ボタンを選択する。
     2. 使用する部品IDと必要な数を入力する。
     3. [更新を終了する]を選択すると、組み立て手順詳細情報を表示します。[新規必要部品を登録する]
@@ -150,23 +147,22 @@ stateDiagram-v2
 
 5. 組み立て手順の登録
 
-   [組み立て手順登録.mov](img%2FregisterProcedure.mov)
-    1. ホーム画面の[新規組み立て手順を登録する]を選択します。
-    2. 完成部品を組み立てるのに必要な情報（組み立て手順ID(必須)、組み立て説明文(必須)、完成部品名(必須)
-       ）を入力します。
-    3. [登録]ボタンを押下すると入力した情報を登録でき、必要部品情報の登録画面に遷移します。
+    ![組み立て手順登録と部品更新.gif](img%2F%E7%B5%84%E3%81%BF%E7%AB%8B%E3%81%A6%E6%89%8B%E9%A0%86%E7%99%BB%E9%8C%B2%E3%81%A8%E9%83%A8%E5%93%81%E6%9B%B4%E6%96%B0.gif)
+   1. ホーム画面の[新規組み立て手順を登録する]を選択します。
+   2. 完成部品を組み立てるのに必要な情報（組み立て手順ID(必須)、組み立て説明文(必須)、完成部品名(必須)）を入力します。
+   3. [登録]ボタンを押下すると入力した情報を登録でき、必要部品情報の登録画面に遷移します。
 
 
 6. 必要部品の登録
 
-   [必要部品複数登録.mov](img%2FregisterRequired.mov)
     1. 対象の組み立て手順ID(必須)、部品ID(必須)、必要数(必須)を入力します。
     2. [登録を終了する]を選択すると、対象の組み立て手順詳細情報を表示します。[追加で部品を登録する]
        を選択すると、組み立てに必要な部品を追加で登録できます。
 
 
 7. 部品の登録
-   [部品情報登録.mov](img%2FregisterPart.mov)
+
+   ![部品登録.gif](img%2F%E9%83%A8%E5%93%81%E7%99%BB%E9%8C%B2.gif)
     1. ホーム画面の[新規部品を登録する]を選択します。
     2. 品名(必須)、製造会社(任意)、EOL日(任意)を入力します。
     3. [登録]ボタンを押下すると入力した情報が登録でき、登録部品一覧表示画面に遷移します。
@@ -175,7 +171,8 @@ stateDiagram-v2
 
 
 8. 部品の検索
-   [部品情報検索→更新.mov](img%2Fsearch_updatePart.mov)
+
+    ![部品情報検索.gif](img%2F%E9%83%A8%E5%93%81%E6%83%85%E5%A0%B1%E6%A4%9C%E7%B4%A2.gif)
     1. ホーム画面の[部品情報を検索する]を選択します。
     2. 情報を表示したい部品名を入力します。
     3. [検索]ボタンを押下すると、部品情報が表示されます。
@@ -184,6 +181,8 @@ stateDiagram-v2
 
 
 9. 登録部品の一覧表示
+
+    ![部品情報一覧.gif](img%2F%E9%83%A8%E5%93%81%E6%83%85%E5%A0%B1%E4%B8%80%E8%A6%A7.gif)
     1. ホーム画面の[部品一覧を表示する]を選択します。
     2. 登録済みの部品が一覧で表示されます。
 
@@ -191,64 +190,66 @@ stateDiagram-v2
 
 
 10. 部品情報の更新
+
+    ![部品情報更新.gif](img%2F%E9%83%A8%E5%93%81%E6%83%85%E5%A0%B1%E6%9B%B4%E6%96%B0.gif)
     1. 品名(必須)、製造会社(任意)、EOL日(任意)を入力します。
     2. [更新]ボタンを押下すると、登録済みの部品が一覧で表示され更新した情報を確認できます。
 
 
 11. バリデーション
+
     1. 空のデータにアクセスしようとしたとき
-       ![img_2.png](img_2.png)
+  ![完成品名エラー.png](img%2F%E5%AE%8C%E6%88%90%E5%93%81%E5%90%8D%E3%82%A8%E3%83%A9%E3%83%BC.png)
     2. 文字数制限を超えたとき
-       ![img_3.png](img_3.png)
+   ![文字数エラー.png](img%2F%E6%96%87%E5%AD%97%E6%95%B0%E3%82%A8%E3%83%A9%E3%83%BC.png)
 
+## 工夫したところ
+1. 必要部品テーブルから表示用オブジェクトに変換しました。
+```java
+  private static List<RequiredPartView> getRequiredPartViews(Map<Integer, Parts> partsMap,
+      List<RequiredParts> requiredPartsList, AssemblyProcedure procedure) {
+    List<RequiredPartView> requiredPartViews = new ArrayList<>();
 
-12. 工夫したところ
-    1. 必要部品テーブルから表示用オブジェクトに変換しました。
-    ```java
-      private static List<RequiredPartView> getRequiredPartViews(Map<Integer, Parts> partsMap,
-          List<RequiredParts> requiredPartsList, AssemblyProcedure procedure) {
-        List<RequiredPartView> requiredPartViews = new ArrayList<>();
-    
-        for (RequiredParts requiredParts : requiredPartsList) {
-          if (procedure.getProcedureId() == requiredParts.getProcedureId()) { //手順IDが等しい場合
-            Parts parts = partsMap.get(requiredParts.getPartId());  //  部品IDキーに紐づく部品情報を代入
-            if (parts != null) {     //部品がある場合
-              addToViewList(requiredParts, parts, requiredPartViews); //Viewリストに追加
-            }
-          }
+    for (RequiredParts requiredParts : requiredPartsList) {
+      if (procedure.getProcedureId() == requiredParts.getProcedureId()) { //手順IDが等しい場合
+        Parts parts = partsMap.get(requiredParts.getPartId());  //  部品IDキーに紐づく部品情報を代入
+        if (parts != null) {     //部品がある場合
+          addToViewList(requiredParts, parts, requiredPartViews); //Viewリストに追加
         }
-        return requiredPartViews;
       }
-    ```
+    }
+    return requiredPartViews;
+  }
+```
 
-    2. ユーザーが選択によって画面遷移先を定めるため、RequestParamを使って遷移先を決定しました。
-    ```java
-      @PostMapping("/parts/required")
-      public String registerRequiredPart(@ModelAttribute RequiredParts requiredPart,
-          BindingResult result, Model model, @RequestParam("action") String action) {
-        if (result.hasErrors()) {
-          model.addAttribute("requiredPart", requiredPart);
-          return "registerRequiredPart";
-        }
-        service.resisterNewRequiredPart(requiredPart);
-        if ("add".equals(action)) {
-          return "redirect:/parts/required/new";
-        } else if ("finish".equals(action)) {
-          AssemblyProcedure procedure = service.getAssemblyProcedureByProcedureId(
-              requiredPart.getProcedureId());
-          int targetPartId = procedure.getTargetPartId();
-          return "redirect:/procedure/" + targetPartId;
-        }
-        return "registerRequiredPart";
-      }
-     ```
+2. ユーザーが選択によって画面遷移先を定めるため、RequestParamを使って遷移先を決定しました。
+```java
+  @PostMapping("/parts/required")
+  public String registerRequiredPart(@ModelAttribute RequiredParts requiredPart,
+      BindingResult result, Model model, @RequestParam("action") String action) {
+    if (result.hasErrors()) {
+      model.addAttribute("requiredPart", requiredPart);
+      return "registerRequiredPart";
+    }
+    service.registerNewRequiredPart(requiredPart);
+    if ("add".equals(action)) {
+      return "redirect:/parts/required/new";
+    } else if ("finish".equals(action)) {
+      AssemblyProcedure procedure = service.getAssemblyProcedureByProcedureId(
+          requiredPart.getProcedureId());
+      int targetPartId = procedure.getTargetPartId();
+      return "redirect:/procedure/" + targetPartId;
+    }
+    return "registerRequiredPart";
+  }
+ ```
 
-13. 今後の展望
-    1. 部品情報の「EOL日」を利用した検索機能
-        - EOL日が近い順にソートを行い、代替品対応業務を行いやすくする。
-    2. 部品情報の「終売フラグ」を利用した検索機能
-        - 終売フラグがtrueの部品は組み立て手順に使用できないように制限を与える。
-    3. 部品情報一覧から組み立て手順詳細情報への遷移
-        - 部品がどの工程で使用されているか検索できる機能を加える。
+## 今後の展望
+1. 部品情報の「EOL日」を利用した検索機能
+    - EOL日が近い順にソートを行い、代替品対応業務を行いやすくする。
+2. 部品情報の「終売フラグ」を利用した検索機能
+    - 終売フラグがtrueの部品は組み立て手順に使用できないように制限を与える。
+3. 部品情報一覧から組み立て手順詳細情報への遷移
+    - 部品がどの工程で使用されているか検索できる機能を加える。
 
 
