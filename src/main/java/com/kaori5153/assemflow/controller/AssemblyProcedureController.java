@@ -168,7 +168,7 @@ public class AssemblyProcedureController {
       summary = "組み立て手順情報画面を表示",
       description = "完成品の部品IDで指定された組み立て手順情報を表示します。"
   )
-  @GetMapping("/procedure/id/{id}")
+  @GetMapping("/procedure/{id}")
   public String getAssemblyProcedure(@PathVariable("id") int targetPartId, Model model) {
     List<AssemblyProcedureDetail> targetProcedure = service.getAssemblyProcedureById(targetPartId);
     if (targetProcedure.isEmpty()) {
@@ -264,7 +264,7 @@ public class AssemblyProcedureController {
       AssemblyProcedure procedure = service.getAssemblyProcedureByProcedureId(
           requiredPart.getProcedureId());
       int targetPartId = procedure.getTargetPartId();
-      return "redirect:/procedure/id/" + targetPartId;
+      return "redirect:/procedure/" + targetPartId;
     }
     return "registerRequiredPart";
   }
@@ -396,7 +396,7 @@ public class AssemblyProcedureController {
       AssemblyProcedure procedure = service.getAssemblyProcedureByProcedureId(
           requiredPart.getProcedureId());
       int targetPartId = procedure.getTargetPartId();
-      return "redirect:/procedure/id/" + targetPartId;
+      return "redirect:/procedure/" + targetPartId;
     }
     return "updateRequiredPart";
   }
@@ -440,7 +440,7 @@ public class AssemblyProcedureController {
       return "updateAssemblyProcedure";
     }
     service.updateAssemblyProcedure(assemblyProcedure);
-    return "redirect:/procedure/id/" + assemblyProcedure.getTargetPartId();
+    return "redirect:/procedure/" + assemblyProcedure.getTargetPartId();
   }
 
 }

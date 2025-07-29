@@ -19,8 +19,8 @@
 - Java 21
 - Spring Boot
 - Thymeleaf
-- MySQL
 - Lombok
+- MySQL
 
 ### 機能一覧
 
@@ -109,7 +109,7 @@ stateDiagram-v2
 ## 何ができるのか
 
 1. ホーム画面
-![ホーム画面.png](img%2F%E3%83%9B%E3%83%BC%E3%83%A0%E7%94%BB%E9%9D%A2.png)
+![ホーム画面.gif](img%2F%E3%83%9B%E3%83%BC%E3%83%A0%E7%94%BB%E9%9D%A2.gif)
 - ユーザーが行いたい操作を選択します。
 - 操作選択後、それぞれの操作ページに遷移します。
 
